@@ -1,0 +1,14 @@
+﻿<Window x:Class="ProjInzynierski.LoginScreen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        WindowStyle="ToolWindow" Title="LoginScreen" Height="240" Width="430">
+    <Grid>
+        <TextBox HorizontalAlignment="Left" Height="24" Margin="50,46,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="289"/>
+        <PasswordBox HorizontalAlignment="Left" Height="24" Margin="50,104,0,0" VerticalAlignment="Top" Width="289" MaxLength="2"/>
+        <Button Content="OK" HorizontalAlignment="Left" Height="28" Margin="50,161,0,0" VerticalAlignment="Top" Width="108"/>
+        <Button Content="Anuluj" HorizontalAlignment="Left" Height="28" Margin="231,161,0,0" VerticalAlignment="Top" Width="108"/>
+        <Label Content="Hasło:" HorizontalAlignment="Left" Margin="50,78,0,0" VerticalAlignment="Top"/>
+        <Label Content="Login:" HorizontalAlignment="Left" Margin="50,20,0,0" VerticalAlignment="Top"/>
+
+    </Grid>
+</Window>
