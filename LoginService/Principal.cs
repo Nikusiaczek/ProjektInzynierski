@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LoginService
 {
-    class Principal : IPrincipal
+    public class MyPrincipal : IPrincipal
     {
         private Identity _identity;
         public Identity Identity
@@ -24,7 +24,7 @@ namespace LoginService
 
         public bool IsInRole(string role)
         {
-            return _identity.Roles.Contains(role);
+            return _identity.Role.Contains(role);
         }
         #endregion
     }

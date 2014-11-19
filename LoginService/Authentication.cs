@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
+using System.Data.SqlClient;
 
 namespace LoginService
 {
@@ -15,13 +16,13 @@ namespace LoginService
 
     public class AuthenticationService : IAuthenticationService
     {
-        private class InternalUserData
+        protected class InternalUserData
         {
-            public InternalUserData(string username, string hashedPassword, string[] roles)
+            public InternalUserData(string username, string hashedPassword, string role)
             {
                 Username = username;
                 HashedPassword = hashedPassword;
-                Roles = roles;
+                Role = role;
             }
             public string Username
             {
@@ -36,49 +37,61 @@ namespace LoginService
                 private set;
             }
 
-            public string[] Roles
+            public string Role
             {
                 get;
                 private set;
             }
         }
 
-        private static readonly List<InternalUserData> _users = new List<InternalUserData>() 
-        { 
-            new InternalUserData("Mark", 
-            "MB5PYIsbI2YzCUe34Q5ZU2VferIoI4Ttd+ydolWV0OE=", new string[] { "Administrators" }), 
-            new InternalUserData("John",  
-            "hMaLizwzOQ5LeOnMuj+C6W75Zl5CXXYbwDSHWW9ZOXc=", new string[] { })
-        };
+        private List<InternalUserData> _users = new List<InternalUserData>();
 
         public User AuthenticateUser(string username, string clearTextPassword)
         {
+            RetrieveUsers();
             InternalUserData userData = _users.FirstOrDefault(u => u.Username.Equals(username)
                 && u.HashedPassword.Equals(CalculateHash(clearTextPassword, u.Username)));
             if (userData == null)
-                throw new UnauthorizedAccessException("Access denied. Please provide some valid credentials.");
+                throw new UnauthorizedAccessException("Odmowa dostępu. Proszę podać właściwe dane.");
 
-            return new User(userData.Username, userData.Roles);
+            return new User(userData.Username, userData.Role);
         }
 
         private string CalculateHash(string clearTextPassword, string salt)
         {
-            // Convert the salted password to a byte array
             byte[] saltedHashBytes = Encoding.UTF8.GetBytes(clearTextPassword + salt);
-            // Use the hash algorithm to calculate the hash
             HashAlgorithm algorithm = new SHA256Managed();
             byte[] hash = algorithm.ComputeHash(saltedHashBytes);
-            // Return the hash as a base64 encoded string to be compared to the stored password
             return Convert.ToBase64String(hash);
+        }
+
+        public void RetrieveUsers()
+        {
+            string connectionString = "Data Source=(LocalDB)\v11.0;AttachDbFilename=\"D:\\Projekty Visual\\BD\\UsersData.mdf\";Integrated Security=True;Connect Timeout=30";
+            SqlConnection connection = new SqlConnection(connectionString);
+            using (SqlCommand cmd = new SqlCommand("SELECT UserName, Password, Role FROM [UserData]", connection))
+            {
+                connection.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    string UserPassword = Convert.ToString(reader["Password"]);
+                    string UserName = Convert.ToString(reader["UserName"]);
+                    string UserRole = Convert.ToString(reader["Role"]);
+                    InternalUserData user = new InternalUserData(UserName, UserPassword, UserRole);
+                    _users.Add(user);
+                }
+                connection.Close();
+            }
         }
     }
 
     public class User
     {
-        public User(string username, string[] roles)
+        public User(string username, string role)
         {
             Username = username;
-            Roles = roles;
+            Role = role;
         }
         public string Username
         {
@@ -87,7 +100,7 @@ namespace LoginService
         }
 
 
-        public string[] Roles
+        public string Role
         {
             get;
             set;
