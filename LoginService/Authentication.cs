@@ -24,24 +24,12 @@ namespace LoginService
                 HashedPassword = hashedPassword;
                 Role = role;
             }
-            public string Username
-            {
-                get;
-                private set;
-            }
+            public string Username { get; private set;}
 
+            public string HashedPassword { get; private set;}
 
-            public string HashedPassword
-            {
-                get;
-                private set;
-            }
+            public string Role { get; private set;}
 
-            public string Role
-            {
-                get;
-                private set;
-            }
         }
 
         private List<InternalUserData> _users = new List<InternalUserData>();
@@ -67,7 +55,8 @@ namespace LoginService
 
         public void RetrieveUsers()
         {
-            string connectionString = "Data Source=(LocalDB)\v11.0;AttachDbFilename=\"D:\\Projekty Visual\\BD\\UsersData.mdf\";Integrated Security=True;Connect Timeout=30";
+            string connectionString = "Data Source=AGALAP;Initial Catalog=\"D:\\PROJEKTY VISUAL\\BD\\USERSDATA.MDF\";Integrated Security=True";
+            //string connectionString = @"Server=(localdb)\V11;Database=UsersData;Trusted_Connection=True;";
             SqlConnection connection = new SqlConnection(connectionString);
             using (SqlCommand cmd = new SqlCommand("SELECT UserName, Password, Role FROM [UserData]", connection))
             {
@@ -93,17 +82,9 @@ namespace LoginService
             Username = username;
             Role = role;
         }
-        public string Username
-        {
-            get;
-            set;
-        }
+        public string Username { get; set;}
 
+        public string Role { get; set;}
 
-        public string Role
-        {
-            get;
-            set;
-        }
     }
 }

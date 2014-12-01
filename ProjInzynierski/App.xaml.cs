@@ -16,9 +16,6 @@ namespace ProjInzynierski
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            //base.OnStartup(e);
-            //MainBootstrapper bootstrapper = new MainBootstrapper();
-            //bootstrapper.Run();
 
             Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
             AuthenticationService service = new AuthenticationService();

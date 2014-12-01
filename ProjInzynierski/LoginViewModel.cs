@@ -12,14 +12,14 @@ using System.Windows.Input;
 
 namespace ProjInzynierski
 {
-    class LoginViewModel : INotifyPropertyChanged
+    public class LoginViewModel : INotifyPropertyChanged
     {
-        private readonly IAuthenticationService _authenticationService;
+        private readonly AuthenticationService _authenticationService;
         private readonly DelegateCommand<object> _loginCommand;
         private string _username;
         private string _status;
 
-        public LoginViewModel(IAuthenticationService authenticationService)
+        public LoginViewModel(AuthenticationService authenticationService)
         {
             _authenticationService = authenticationService;
             _loginCommand = new DelegateCommand<object>(Login, CanLogin);

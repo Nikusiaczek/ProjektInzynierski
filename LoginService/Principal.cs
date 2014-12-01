@@ -10,13 +10,13 @@ namespace LoginService
     public class MyPrincipal : IPrincipal
     {
         private Identity _identity;
+
         public Identity Identity
         {
             get { return _identity; }
             set { _identity = value; }
         }
 
-        #region IPrincipal Members
         IIdentity IPrincipal.Identity
         {
             get { return this.Identity; }
@@ -26,7 +26,6 @@ namespace LoginService
         {
             return _identity.Role.Contains(role);
         }
-        #endregion
     }
 
 }

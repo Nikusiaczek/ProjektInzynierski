@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LoginService;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,7 @@ namespace ProjInzynierski
     {
         public LoginScreen()
         {
+            LoginViewModel logViewModel = new LoginViewModel(new AuthenticationService());
             InitializeComponent();
         }
     }
