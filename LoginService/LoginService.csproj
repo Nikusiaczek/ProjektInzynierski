@@ -40,7 +40,7 @@
   <ItemGroup>
     <Compile Include="Authentication.cs" />
     <Compile Include="Identity.cs" />
-    <Compile Include="Principal.cs" />
+    <Compile Include="MyPrincipal.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

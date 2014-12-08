@@ -16,31 +16,29 @@ namespace ProjInzynierski
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+            MyPrincipal customPrincipal = new MyPrincipal();
+            AppDomain.CurrentDomain.SetThreadPrincipal(customPrincipal);
 
             Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-            AuthenticationService service = new AuthenticationService();
-            LoginViewModel loginViewModel = new LoginViewModel(service);
-            LoginScreen login = new LoginScreen();
-            service.RetrieveUsers();
+            LoginViewModel logViewModel = new LoginViewModel();
+            LoginScreen login = new LoginScreen(logViewModel);
             bool? res = login.ShowDialog();
             Application.Current.MainWindow = null;
             Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
 
-            if (res.HasValue && res.Value)//&& Authenticate(logon.UserName, logon.Password))
+            if (res.HasValue && res.Value && logViewModel.IsAuthenticated)
             {
-                if (loginViewModel.IsAuthenticated)
-                {
-                    MainBootstrapper bootStrapper = new MainBootstrapper();
-                    bootStrapper.Run();
-                }
+                MainBootstrapper bootStrapper = new MainBootstrapper();
+                bootStrapper.Run();
             }
-            //else if (!Authenticate(logon.UserName, logon.Password))
-            //{
-            //MessageBox.Show("Wrong login password combination",
-            //    "Authentication Unsuccessful",
-            //    MessageBoxButton.OK,
-            //    MessageBoxImage.Error););
-            //}
+            else if (!logViewModel.IsAuthenticated)
+            {
+                MessageBox.Show("Niepoprawne dane logowania.\n Spróbuj ponownie.",
+                "Logowanie nie powiodło się",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+                Application.Current.Shutdown(1);
+            }
             else
             {
                 MessageBox.Show(

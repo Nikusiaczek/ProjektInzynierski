@@ -5,7 +5,7 @@
     <Grid>
         <TextBox HorizontalAlignment="Left" Height="24" Margin="50,46,0,0" TextWrapping="Wrap" Text="{Binding Username}" VerticalAlignment="Top" Width="289"/>
         <PasswordBox x:Name="passwordBox" HorizontalAlignment="Left" Height="24" Margin="50,104,0,0" VerticalAlignment="Top" Width="289"/>
-        <Button Content="OK" HorizontalAlignment="Left" Height="28" Margin="50,161,0,0" VerticalAlignment="Top" Width="108" IsDefault="True" Command="{Binding LoginCommand, Mode=OneTime}" CommandParameter="{Binding ElementName=passwordBox}"/>
+        <Button Content="OK" HorizontalAlignment="Left" Height="28" Margin="50,161,0,0" VerticalAlignment="Top" Width="108" IsDefault="True" Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=passwordBox}" Click="Button_Click"/>
         <Button Content="Anuluj" HorizontalAlignment="Left" Height="28" Margin="231,161,0,0" VerticalAlignment="Top" Width="108" IsCancel="True"/>
         <Label Content="Hasło:" HorizontalAlignment="Left" Margin="50,78,0,0" VerticalAlignment="Top"/>
         <Label Content="Login:" HorizontalAlignment="Left" Margin="50,20,0,0" VerticalAlignment="Top"/>

@@ -15,4 +15,11 @@ namespace LoginService
         }
         public string AuthenticationType { get { return "Custom authentication"; } }
     }
+
+    public class AnonymousIdentity : Identity
+    {
+        public AnonymousIdentity()
+            : base(string.Empty, string.Empty )
+        { }
+    }
 }

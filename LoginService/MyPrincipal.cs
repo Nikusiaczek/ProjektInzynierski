@@ -13,7 +13,7 @@ namespace LoginService
 
         public Identity Identity
         {
-            get { return _identity; }
+            get { return _identity ?? new AnonymousIdentity(); }
             set { _identity = value; }
         }
 

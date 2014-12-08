@@ -20,10 +20,16 @@ namespace ProjInzynierski
     /// </summary>
     public partial class LoginScreen : Window
     {
-        public LoginScreen()
+        public LoginScreen(LoginViewModel logVM)
         {
-            LoginViewModel logViewModel = new LoginViewModel(new AuthenticationService());
             InitializeComponent();
+            this.DataContext = logVM;
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = true;
+        }
+
     }
 }

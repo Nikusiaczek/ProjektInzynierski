@@ -14,16 +14,25 @@ namespace ProjInzynierski
 {
     public class LoginViewModel : INotifyPropertyChanged
     {
-        private readonly AuthenticationService _authenticationService;
+        private  AuthenticationService _authenticationService;
         private readonly DelegateCommand<object> _loginCommand;
         private string _username;
         private string _status;
+        private User _user;
 
-        public LoginViewModel(AuthenticationService authenticationService)
+        public LoginViewModel()
         {
-            _authenticationService = authenticationService;
+            _authenticationService = new AuthenticationService();
             _loginCommand = new DelegateCommand<object>(Login, CanLogin);
-        } 
+        }
+
+        public User CreatedUser
+        {
+            get
+            {
+                return _user;
+            }
+        }
 
         #region Properties
         public string Username
@@ -65,7 +74,7 @@ namespace ProjInzynierski
             try
             {
                 //Validate credentials through the authentication service
-                User user = _authenticationService.AuthenticateUser(Username, clearTextPassword);
+                _user = _authenticationService.AuthenticateUser(Username, clearTextPassword);
 
                 //Get the current principal object
                 MyPrincipal principal = Thread.CurrentPrincipal as MyPrincipal;
@@ -73,15 +82,15 @@ namespace ProjInzynierski
                     throw new ArgumentException("The application's default thread principal must be set to a CustomPrincipal object on startup.");
 
                 //Authenticate the user
-                principal.Identity = new Identity(user.Username, user.Role);
+                principal.Identity = new Identity(_user.Username, _user.Role);
 
                 //Update UI
                 NotifyPropertyChanged("AuthenticatedUser");
                 NotifyPropertyChanged("IsAuthenticated");
                 _loginCommand.RaiseCanExecuteChanged();
-                Username = string.Empty; //reset
-                passwordBox.Password = string.Empty; //reset
-                Status = string.Empty;
+                //Username = string.Empty; //reset
+                //passwordBox.Password = string.Empty; //reset
+                //Status = string.Empty;
             }
             catch (UnauthorizedAccessException)
             {
@@ -98,13 +107,10 @@ namespace ProjInzynierski
             return !IsAuthenticated;
         }
 
-
         public bool IsAuthenticated
         {
             get { return Thread.CurrentPrincipal.Identity.IsAuthenticated; }
         }
-
-
 
         #region INotifyPropertyChanged Members
         public event PropertyChangedEventHandler PropertyChanged;

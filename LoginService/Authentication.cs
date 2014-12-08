@@ -57,7 +57,7 @@ namespace LoginService
         {
             string connectionString = "Data Source=AGALAP;Initial Catalog=\"D:\\PROJEKTY VISUAL\\BD\\USERSDATA.MDF\";Integrated Security=True";
             //string connectionString = @"Server=(localdb)\V11;Database=UsersData;Trusted_Connection=True;";
-            SqlConnection connection = new SqlConnection(connectionString);
+            using (SqlConnection connection = new SqlConnection(connectionString))
             using (SqlCommand cmd = new SqlCommand("SELECT UserName, Password, Role FROM [UserData]", connection))
             {
                 connection.Open();
