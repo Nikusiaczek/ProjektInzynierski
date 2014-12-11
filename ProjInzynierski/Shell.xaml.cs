@@ -23,6 +23,7 @@ namespace ProjInzynierski
         public Shell()
         {
             InitializeComponent();
+            this.DataContext = new ShellViewModel();
         }
     }
 }

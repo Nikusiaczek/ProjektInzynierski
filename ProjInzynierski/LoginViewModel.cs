@@ -88,9 +88,13 @@ namespace ProjInzynierski
                 NotifyPropertyChanged("AuthenticatedUser");
                 NotifyPropertyChanged("IsAuthenticated");
                 _loginCommand.RaiseCanExecuteChanged();
-                //Username = string.Empty; //reset
-                //passwordBox.Password = string.Empty; //reset
-                //Status = string.Empty;
+                //while(!IsAuthenticated)
+                //{
+                //    Username = string.Empty; //reset
+                //    passwordBox.Password = string.Empty; //reset
+                //    Status = string.Empty;
+                //}
+                
             }
             catch (UnauthorizedAccessException)
             {

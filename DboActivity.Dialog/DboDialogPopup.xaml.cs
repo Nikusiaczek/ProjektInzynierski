@@ -1,5 +1,4 @@
-﻿using LoginService;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,25 +10,20 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ProjInzynierski
+namespace DboActivity.Dialog
 {
     /// <summary>
-    /// Interaction logic for LoginScreen.xaml
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class LoginScreen : Window
+    public partial class DboDialogPopup : Window
     {
-        public LoginScreen(LoginViewModel logVM)
+        public DboDialogPopup(DboDialogViewModel dboDialogVM)
         {
             InitializeComponent();
-            this.DataContext = logVM;
+            this.DataContext = dboDialogVM;
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-                DialogResult = true;
-        }
-
     }
 }
