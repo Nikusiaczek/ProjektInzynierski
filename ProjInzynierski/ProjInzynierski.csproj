@@ -34,6 +34,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\..\..\prism\Bin\Desktop\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
@@ -54,7 +60,10 @@
       <HintPath>..\..\..\prism\Bin\Desktop\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -72,7 +81,40 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Accommodation.cs">
+      <DependentUpon>dboSchema.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Births.cs">
+      <DependentUpon>dboSchema.tt</DependentUpon>
+    </Compile>
+    <Compile Include="dboSchema.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dboSchema.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="dboSchema.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dboSchema.tt</DependentUpon>
+    </Compile>
+    <Compile Include="dboSchema.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dboSchema.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Deaths.cs">
+      <DependentUpon>dboSchema.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Marriages.cs">
+      <DependentUpon>dboSchema.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Person.cs">
+      <DependentUpon>dboSchema.tt</DependentUpon>
+    </Compile>
     <Compile Include="ShellViewModel.cs" />
+    <Compile Include="sysdiagrams.cs">
+      <DependentUpon>dboSchema.tt</DependentUpon>
+    </Compile>
     <Page Include="LoginScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -114,6 +156,24 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EntityDeploy Include="dboSchema.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>dboSchema.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="dboSchema.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>dboSchema.edmx</DependentUpon>
+      <LastGenOutput>dboSchema.Context.cs</LastGenOutput>
+    </None>
+    <None Include="dboSchema.edmx.diagram">
+      <DependentUpon>dboSchema.edmx</DependentUpon>
+    </None>
+    <None Include="dboSchema.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>dboSchema.edmx</DependentUpon>
+      <LastGenOutput>dboSchema.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -132,6 +192,9 @@
       <Project>{dca6bb28-0d88-4771-8dfe-5ac23ff64060}</Project>
       <Name>LoginService</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

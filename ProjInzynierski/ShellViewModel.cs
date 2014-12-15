@@ -6,29 +6,32 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace ProjInzynierski
 {
     public class ShellViewModel: INotifyPropertyChanged
     {
-        private readonly DelegateCommand _dialogPopupCommand;
+        private readonly DelegateCommand<object> _dialogPopupCommand;
         private string dbName;
         private string connectionString;
 
         public ShellViewModel()
         {
-            _dialogPopupCommand = new DelegateCommand(Popup, CanConnect);
+            _dialogPopupCommand = new DelegateCommand<object>(Popup, CanConnect);
         }
 
-        private void Popup()
+        private void Popup(object sender)
         {
-            //Console.WriteLine("Wszedłem!");
-            DboDialogPopup dialogPopup = new DboDialogPopup(new DboDialogViewModel());
+            Button button = sender as Button;
+            string content = button.Content.ToString();
+            DboDialogPopup dialogPopup = new DboDialogPopup(new DboDialogViewModel(content));
             dialogPopup.Show();
+            
         }
 
-        private bool CanConnect()
+        private bool CanConnect(object sender)
         {
             return true;
         }

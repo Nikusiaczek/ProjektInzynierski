@@ -9,6 +9,18 @@ namespace DboActivity.Dialog
 {
     public class DboDialogViewModel: INotifyPropertyChanged
     {
+        private string _windowName;
+
+        public DboDialogViewModel(string windowName)
+        {
+            this._windowName = windowName;
+        }
+
+        public string WindowName 
+        {
+            get { return _windowName; } 
+        }
+   
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged(string propertyName)
