@@ -7,17 +7,17 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ProjInzynierski
+namespace DboActivity.Dialog
 {
     using System;
     using System.Collections.ObjectModel;
     
-    public partial class Deaths
+    public partial class sysdiagrams
     {
-        public decimal pesel { get; set; }
-        public int ID { get; set; }
-        public System.DateTime date { get; set; }
-    
-        public virtual Person Person { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

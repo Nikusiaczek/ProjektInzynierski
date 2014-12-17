@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{046FF2F3-A2B6-49AC-AF09-DC33E68F7A32}</ProjectGuid>
+    <ProjectGuid>{667AE82D-B02A-4730-BF75-DFD60C384164}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DboActivity.Dialog</RootNamespace>
-    <AssemblyName>DboActivity.Dialog</AssemblyName>
+    <RootNamespace>InsertDialog</RootNamespace>
+    <AssemblyName>InsertDialog</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -34,19 +34,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.Entity" />
-    <Reference Include="System.Data.Linq" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -64,30 +53,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Accommodation.cs">
-      <DependentUpon>dboSchema.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Births.cs">
-      <DependentUpon>dboSchema.tt</DependentUpon>
-    </Compile>
-    <Compile Include="dboSchema.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>dboSchema.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Deaths.cs">
-      <DependentUpon>dboSchema.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Marriages.cs">
-      <DependentUpon>dboSchema.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Person.cs">
-      <DependentUpon>dboSchema.tt</DependentUpon>
-    </Compile>
-    <Compile Include="sysdiagrams.cs">
-      <DependentUpon>dboSchema.tt</DependentUpon>
-    </Compile>
-    <Page Include="DboDialogPopup.xaml">
+    <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -95,23 +61,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DboDialogPopup.xaml.cs">
-      <DependentUpon>DboDialogPopup.xaml</DependentUpon>
+    <Compile Include="InsertDialogViewModel.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DboDialogViewModel.cs" />
-    <Compile Include="dboSchema.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>dboSchema.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="dboSchema.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>dboSchema.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -129,29 +85,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="dboSchema.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>dboSchema.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="dboSchema.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>dboSchema.edmx</DependentUpon>
-      <LastGenOutput>dboSchema.Context.cs</LastGenOutput>
-    </None>
-    <None Include="dboSchema.edmx.diagram">
-      <DependentUpon>dboSchema.edmx</DependentUpon>
-    </None>
-    <None Include="dboSchema.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>dboSchema.edmx</DependentUpon>
-      <LastGenOutput>dboSchema.cs</LastGenOutput>
-    </None>
-    <None Include="packages.config" />
-    <None Include="Properties\DataSources\Accommodation.datasource" />
-    <None Include="Properties\DataSources\Births.datasource" />
-    <None Include="Properties\DataSources\Deaths.datasource" />
-    <None Include="Properties\DataSources\Marriages.datasource" />
-    <None Include="Properties\DataSources\Person.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -160,15 +93,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\InsertDialog\InsertDialog.csproj">
-      <Project>{667ae82d-b02a-4730-bf75-dfd60c384164}</Project>
-      <Name>InsertDialog</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -9,15 +9,16 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto" MinWidth="423"/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Button Name ="birthButton" Content="Narodziny" Margin="0,1,0,0" Height="70" VerticalAlignment="Top" HorizontalAlignment="Left" Width="90" Grid.Column="1" Grid.Row="1" Command="{Binding PopupCommand}" CommandParameter="{Binding ElementName=birthButton}"/>
-        <Button Name ="accButton" Content="Zameldowanie" HorizontalAlignment="Left" Margin="0,88,0,0" VerticalAlignment="Top" Width="90" Height="70" Grid.Column="1" Grid.Row="1" Command="{Binding PopupCommand}" CommandParameter="{Binding ElementName=accButton}"/>
-        <Button Name ="marrButton" Content="Małżeństwa" HorizontalAlignment="Left" Margin="124,1,0,0" VerticalAlignment="Top" Width="90" Height="70" Grid.Column="1" Grid.Row="1" Command="{Binding PopupCommand}" CommandParameter="{Binding ElementName=marrButton}"/>
-        <Button Name="deathButton" Content="Zgony" HorizontalAlignment="Left" Margin="124,88,0,0" VerticalAlignment="Top" Width="90" Height="70" Grid.Column="1" Grid.Row="1" Command="{Binding PopupCommand}" CommandParameter="{Binding ElementName=deathButton}"/>
-        <TextBlock HorizontalAlignment="Center" Height="74" Margin="202,24,225,0" TextWrapping="Wrap" TextAlignment="Center" FontSize="20" Text="Witaj!" VerticalAlignment="Top" Width="280" Grid.ColumnSpan="3"/>
-        <Button Name="searchButton" Content="Przeglądaj" Margin="64,24,60,0" Height="70" VerticalAlignment="Top" HorizontalAlignment="Center" Width="90" Grid.Column="1" Grid.Row="2"/>
+        <Button Name ="deathButton" Content="Narodziny" Margin="333,0,0,0" Height="70" VerticalAlignment="Top" HorizontalAlignment="Left" Width="90" Grid.Column="1" Grid.Row="1" Command="{Binding PopupCommand}" CommandParameter="{Binding ElementName=deathButton}"/>
+        <Button Name ="birthButton" Content="Zgony" Margin="173,88,0,0" Height="70" VerticalAlignment="Top" HorizontalAlignment="Left" Width="90" Grid.Column="1" Grid.Row="1" Command="{Binding PopupCommand}" CommandParameter="{Binding ElementName=birthButton}"/>
+        <Button Name ="accomodationButton" Content="Zameldowanie" HorizontalAlignment="Left" Margin="173,0,0,0" VerticalAlignment="Top" Width="90" Height="70" Grid.Column="1" Grid.Row="1" Command="{Binding PopupCommand}" CommandParameter="{Binding ElementName=accomodationButton}"/>
+        <Button Name ="marriageButton" Content="Małżeństwa" HorizontalAlignment="Left" Margin="0,88,0,0" VerticalAlignment="Top" Width="90" Height="70" Grid.Column="1" Grid.Row="1" Command="{Binding PopupCommand}" CommandParameter="{Binding ElementName=marriageButton}"/>
+        <Button Name="personalDataButton" Content="Dane Osobowe" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Height="70" Grid.Column="1" Grid.Row="1" Command="{Binding PopupCommand}" CommandParameter="{Binding ElementName=personalDataButton}"/>
+        <TextBlock HorizontalAlignment="Center" Height="74" Margin="89,24,54,0" TextWrapping="Wrap" TextAlignment="Center" FontSize="20" Text="Witaj!" VerticalAlignment="Top" Width="280" Grid.Column="1"/>
+        <Button Name="searchButton" Content="Przeglądaj" Margin="333,88,0,0" Height="70" VerticalAlignment="Top" HorizontalAlignment="Center" Width="90" Grid.Column="1" Grid.Row="1"/>
     </Grid>
 </Window>

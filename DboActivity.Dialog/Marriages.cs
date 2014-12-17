@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ProjInzynierski
+namespace DboActivity.Dialog
 {
     using System;
     using System.Collections.ObjectModel;

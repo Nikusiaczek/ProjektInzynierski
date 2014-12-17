@@ -34,12 +34,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\..\..\prism\Bin\Desktop\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
@@ -81,40 +75,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Accommodation.cs">
-      <DependentUpon>dboSchema.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Births.cs">
-      <DependentUpon>dboSchema.tt</DependentUpon>
-    </Compile>
-    <Compile Include="dboSchema.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>dboSchema.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="dboSchema.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>dboSchema.tt</DependentUpon>
-    </Compile>
-    <Compile Include="dboSchema.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>dboSchema.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Deaths.cs">
-      <DependentUpon>dboSchema.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Marriages.cs">
-      <DependentUpon>dboSchema.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Person.cs">
-      <DependentUpon>dboSchema.tt</DependentUpon>
-    </Compile>
     <Compile Include="ShellViewModel.cs" />
-    <Compile Include="sysdiagrams.cs">
-      <DependentUpon>dboSchema.tt</DependentUpon>
-    </Compile>
     <Page Include="LoginScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -156,23 +117,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="dboSchema.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>dboSchema.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="dboSchema.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>dboSchema.edmx</DependentUpon>
-      <LastGenOutput>dboSchema.Context.cs</LastGenOutput>
-    </None>
-    <None Include="dboSchema.edmx.diagram">
-      <DependentUpon>dboSchema.edmx</DependentUpon>
-    </None>
-    <None Include="dboSchema.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>dboSchema.edmx</DependentUpon>
-      <LastGenOutput>dboSchema.cs</LastGenOutput>
-    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

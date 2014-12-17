@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="6d2cc305fb3f4e3e9a69fcbc3df9eacb" Name="Diagram1">
+        <EntityTypeShape EntityType="Model.Accommodation" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Births" Width="1.5" PointX="5.25" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Deaths" Width="1.5" PointX="5.25" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Marriages" Width="1.5" PointX="5.25" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Person" Width="1.5" PointX="3" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.sysdiagrams" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="Model.FK_Person_Accommodation" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Person_Accommodation1" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Births_Person" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Deaths_Person" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Marriages_Person" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Marriages_Person1" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

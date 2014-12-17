@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="dboModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Accommodation">
           <Key>
             <PropertyRef Name="ID" />
@@ -141,7 +141,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="dboModelStoreContainer">
+        <EntityContainer Name="ModelStoreContainer">
           <EntitySet Name="Accommodation" EntityType="Self.Accommodation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Births" EntityType="Self.Births" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Deaths" EntityType="Self.Deaths" Schema="dbo" store:Type="Tables" />
@@ -177,7 +177,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="dboModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Accommodation">
           <Key>
             <PropertyRef Name="ID" />
@@ -363,9 +363,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="dboModelStoreContainer" CdmEntityContainer="Entities">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
           <EntitySetMapping Name="Accommodation">
-            <EntityTypeMapping TypeName="dboModel.Accommodation">
+            <EntityTypeMapping TypeName="Model.Accommodation">
               <MappingFragment StoreEntitySet="Accommodation">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="street" ColumnName="street" />
@@ -378,7 +378,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Births">
-            <EntityTypeMapping TypeName="dboModel.Births">
+            <EntityTypeMapping TypeName="Model.Births">
               <MappingFragment StoreEntitySet="Births">
                 <ScalarProperty Name="pesel" ColumnName="pesel" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
@@ -388,7 +388,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Deaths">
-            <EntityTypeMapping TypeName="dboModel.Deaths">
+            <EntityTypeMapping TypeName="Model.Deaths">
               <MappingFragment StoreEntitySet="Deaths">
                 <ScalarProperty Name="pesel" ColumnName="pesel" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
@@ -397,7 +397,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Marriages">
-            <EntityTypeMapping TypeName="dboModel.Marriages">
+            <EntityTypeMapping TypeName="Model.Marriages">
               <MappingFragment StoreEntitySet="Marriages">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="pesel" ColumnName="pesel" />
@@ -409,7 +409,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Person">
-            <EntityTypeMapping TypeName="dboModel.Person">
+            <EntityTypeMapping TypeName="Model.Person">
               <MappingFragment StoreEntitySet="Person">
                 <ScalarProperty Name="pesel" ColumnName="pesel" />
                 <ScalarProperty Name="firstName" ColumnName="firstName" />
@@ -424,7 +424,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="dboModel.sysdiagrams">
+            <EntityTypeMapping TypeName="Model.sysdiagrams">
               <MappingFragment StoreEntitySet="sysdiagrams">
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="principal_id" ColumnName="principal_id" />

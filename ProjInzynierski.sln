@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoginService", "LoginServic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DboActivity.Dialog", "DboActivity.Dialog\DboActivity.Dialog.csproj", "{046FF2F3-A2B6-49AC-AF09-DC33E68F7A32}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InsertDialog", "InsertDialog\InsertDialog.csproj", "{667AE82D-B02A-4730-BF75-DFD60C384164}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{046FF2F3-A2B6-49AC-AF09-DC33E68F7A32}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{046FF2F3-A2B6-49AC-AF09-DC33E68F7A32}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{046FF2F3-A2B6-49AC-AF09-DC33E68F7A32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{667AE82D-B02A-4730-BF75-DFD60C384164}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{667AE82D-B02A-4730-BF75-DFD60C384164}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{667AE82D-B02A-4730-BF75-DFD60C384164}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{667AE82D-B02A-4730-BF75-DFD60C384164}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

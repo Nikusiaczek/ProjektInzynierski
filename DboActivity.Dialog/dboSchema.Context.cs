@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ProjInzynierski
+namespace DboActivity.Dialog
 {
     using System;
     using System.Data.Entity;
@@ -18,6 +18,7 @@ namespace ProjInzynierski
         public Entities()
             : base("name=Entities")
         {
+            var type = typeof(System.Data.Entity.SqlServer.SqlProviderServices);
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
