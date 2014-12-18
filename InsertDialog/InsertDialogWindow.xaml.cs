@@ -18,9 +18,9 @@ namespace InsertDialog
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class InsertDialogWindow : Window
     {
-        public MainWindow(InsertDialogViewModel insertVM)
+        public InsertDialogWindow(InsertDialogViewModel insertVM)
         {
             InitializeComponent();
             this.DataContext = insertVM;

@@ -14,8 +14,6 @@ namespace ProjInzynierski
     public class ShellViewModel: INotifyPropertyChanged
     {
         private readonly DelegateCommand<object> _dialogPopupCommand;
-        private string dbName;
-        private string connectionString;
 
         public ShellViewModel()
         {

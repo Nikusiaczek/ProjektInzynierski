@@ -1,4 +1,5 @@
 ﻿using InsertDialog;
+using Microsoft.Practices.Prism.Commands;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,12 +7,14 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace DboActivity.Dialog
 {
     public class DboDialogViewModel : INotifyPropertyChanged
     {
         private string _windowName;
+        private readonly DelegateCommand _insertDialogPopup;
         private string connectionString = "Data Source=AGALAP;Initial Catalog=\"D:\\PROJEKTY VISUAL\\POPULATIONREGISTERING\\POPULATIONREGISTER.MDF\";Integrated Security=True";
 
 
@@ -19,11 +22,19 @@ namespace DboActivity.Dialog
         {
             this._windowName = windowName;
             PrepareDataGrid(windowName);
+            _insertDialogPopup = new DelegateCommand(AddToDB);
         }
 
         public bool Inactive
         {
-            get { return false; }
+            get 
+            {
+                if (WindowName.Equals("Zameldowanie"))
+                {
+                    return false;
+                }
+                return true;
+            }
         }
         public string WindowName
         {
@@ -31,6 +42,8 @@ namespace DboActivity.Dialog
         }
 
         public object Data { get; set; }
+
+        public ICommand InsertDialogCommand { get { return _insertDialogPopup; } }
 
         private void PrepareDataGrid(string windowName)
         {
@@ -158,25 +171,30 @@ namespace DboActivity.Dialog
                         {
                             var context = new Entities();
                             InsertDialogViewModel insertVM = new InsertDialogViewModel(WindowName);
-                            MainWindow dialog = new MainWindow(insertVM);
+                            InsertDialogWindow dialog = new InsertDialogWindow(insertVM);
                             bool? res = dialog.ShowDialog();
                             if (res.HasValue && res.Value)
                             {
-                                context.Person.Add(new Person());
-                                context.Births.Add(new Births());
+                                context.Person.Add(FillPerson(insertVM.Pesel,insertVM.FirstName,insertVM.MiddleName, insertVM.LastName,insertVM.DateOfBirth,insertVM.Sex));                              
+                                context.Births.Add(FillBirth(1, insertVM.Date, insertVM.Pesel, insertVM.MothersPesel));
+                                context.SaveChanges();
                             }
                         }
                         break;
                     case "Zgony":
                         {
                             var context = new Entities();
-                            //dialog.showdialog
-                            //walidacja
-                            Deaths death = new Deaths();
-                            context.Deaths.Add(death);
-                            var personList = context.Person.ToList();
-                            Person personToUpdate = personList.Where(p => p.pesel.Equals(death.pesel)).FirstOrDefault<Person>();
-                            personToUpdate.isDead = true;
+                            InsertDialogViewModel insertVM = new InsertDialogViewModel(WindowName);
+                            InsertDialogWindow dialog = new InsertDialogWindow(insertVM);
+                            bool? res = dialog.ShowDialog();
+                            if (res.HasValue && res.Value)
+                            {
+                                context.Deaths.Add(FillDeath(1,insertVM.Date, insertVM.Pesel));
+                                var personList = context.Person.ToList();
+                                Person personToUpdate = personList.Where(p => p.pesel.Equals(insertVM.Pesel)).FirstOrDefault<Person>();
+                                personToUpdate.isDead = true;
+                                context.SaveChanges();
+                            }
                         }
                         break;
                     case "Małżeństwa":
@@ -184,7 +202,7 @@ namespace DboActivity.Dialog
                             var context = new Entities();
                             //dialog.showdialog
                             //walidacja
-                            Person person = new Person(), person1 = new Person();
+                            Person person = FillPerson(), person1 = FillPerson();
                             var personList = context.Person.ToList();
                             Person personToFind = personList.Where(p => p.pesel.Equals(person.pesel)).FirstOrDefault<Person>();
                             Person personToFind1 = personList.Where(p => p.pesel.Equals(person1.pesel)).FirstOrDefault<Person>();
@@ -197,12 +215,68 @@ namespace DboActivity.Dialog
                                 context.Person.Add(person1);
                             }
                             context.Marriages.Add(new Marriages());
+                            context.SaveChanges();
                         }
                         break;
                     case "Dane Osobowe":
+                        {
+                            var context = new Entities();
+                            InsertDialogViewModel insertVM = new InsertDialogViewModel(WindowName);
+                            InsertDialogWindow dialog = new InsertDialogWindow(insertVM);
+                            bool? res = dialog.ShowDialog();
+                            if (res.HasValue && res.Value)
+                            {
+                                context.Person.Add(FillPerson(insertVM.Pesel, insertVM.FirstName, insertVM.MiddleName, insertVM.LastName, insertVM.DateOfBirth, insertVM.Sex));
+                            }
+                            context.SaveChanges();
+                        }
                         break;
                 }
             }
+        }
+
+        public Person FillPerson(decimal pesel, string firstName, string middleName, string lastName, DateTime birth, bool sex)
+        {
+            Person person = new Person();
+            person.pesel = pesel;
+            person.firstName = firstName;
+            person.middleName = middleName;
+            person.lastName = lastName;
+            person.dateOfBirth = birth;
+            person.sex = sex;
+            person.temporaryAddress_ID = 0;
+            person.permanentAddress_ID = 0;
+            person.isDead = false;
+            return person;
+        }
+
+        public Births FillBirth(int id, DateTime date, decimal pesel, decimal mother)
+        {
+            Births birth = new Births();
+            birth.ID = id;
+            birth.pesel = pesel;
+            birth.date = date;
+            birth.mothersPesel = mother;
+            return birth;
+        }
+
+        public Deaths FillDeath(int id, DateTime date, decimal pesel)
+        {
+            Deaths death = new Deaths();
+            death.ID = id;
+            death.date = date;
+            death.pesel = pesel;
+            return death;
+        }
+
+        public Marriages FillMariage(int id, decimal pesel, decimal pesel2, DateTime date)
+        {
+            Marriages marriage = new Marriages();
+            marriage.ID = id;
+            marriage.pesel = pesel;
+            marriage.pesel2 = pesel2;
+            marriage.date = date;
+            return marriage;
         }
 
 
