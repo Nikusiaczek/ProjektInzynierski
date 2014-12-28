@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DboActivity.Dialog", "DboAc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InsertDialog", "InsertDialog\InsertDialog.csproj", "{667AE82D-B02A-4730-BF75-DFD60C384164}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserWindow", "BrowserWindow\BrowserWindow.csproj", "{98076D3F-67AA-4572-8F0A-6D03C50977AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModifyDialog", "ModifyDialog\ModifyDialog.csproj", "{BCED831C-D81A-4722-B909-CC2FCE65BBC9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{667AE82D-B02A-4730-BF75-DFD60C384164}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{667AE82D-B02A-4730-BF75-DFD60C384164}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{667AE82D-B02A-4730-BF75-DFD60C384164}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98076D3F-67AA-4572-8F0A-6D03C50977AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98076D3F-67AA-4572-8F0A-6D03C50977AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98076D3F-67AA-4572-8F0A-6D03C50977AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98076D3F-67AA-4572-8F0A-6D03C50977AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCED831C-D81A-4722-B909-CC2FCE65BBC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCED831C-D81A-4722-B909-CC2FCE65BBC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCED831C-D81A-4722-B909-CC2FCE65BBC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCED831C-D81A-4722-B909-CC2FCE65BBC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

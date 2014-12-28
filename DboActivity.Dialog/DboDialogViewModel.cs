@@ -50,7 +50,11 @@ namespace DboActivity.Dialog
             set { _data = value; }
         }
 
-        public object SelectedObject { get; set; }
+        public object SelectedObject
+        {
+            get;
+            set;
+        }
         public bool UnlockButton 
         {
             get

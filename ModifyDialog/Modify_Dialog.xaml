@@ -1,0 +1,8 @@
+﻿<Window x:Class="ModifyDialog.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Modyfikuj" Height="370" Width="520">
+    <Grid>
+
+    </Grid>
+</Window>
