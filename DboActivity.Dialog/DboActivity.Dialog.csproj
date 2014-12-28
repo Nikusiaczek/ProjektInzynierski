@@ -100,6 +100,7 @@
     <Compile Include="Marriages.cs">
       <DependentUpon>dboSchema.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model.cs" />
     <Compile Include="Person.cs">
       <DependentUpon>dboSchema.tt</DependentUpon>
     </Compile>

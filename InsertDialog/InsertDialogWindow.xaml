@@ -10,7 +10,7 @@
         <TextBox Name="middleNameText" HorizontalAlignment="Left" Height="23" Margin="175,118,0,0" TextWrapping="Wrap" Text="{Binding MiddleName}" VerticalAlignment="Top" Width="195"/>
         <TextBox Name="lastNameText" HorizontalAlignment="Left" Height="23" Margin="175,162,0,0" TextWrapping="Wrap" Text="{Binding LastName}" VerticalAlignment="Top" Width="195"/>
         <TextBox Name="birthText" HorizontalAlignment="Left" Height="23" Margin="175,206,0,0" TextWrapping="Wrap" Text="{Binding DateOfBirth}" VerticalAlignment="Top" Width="195"/>
-        <TextBox Name="sexText" HorizontalAlignment="Left" Height="23" Margin="175,244,0,0" TextWrapping="Wrap" Text="{Binding Sex}" VerticalAlignment="Top" Width="195"/>
+        <CheckBox Name="sexText" HorizontalAlignment="Left" Height="23" Margin="175,244,0,0"  IsChecked="{Binding Sex}" VerticalAlignment="Top" Width="195"/>
         <TextBox Name="dateText" HorizontalAlignment="Left" Height="23" Margin="175,279,0,0" TextWrapping="Wrap" Text="{Binding Date}" VerticalAlignment="Top" Width="195" Visibility="{Binding ChangeVisibility}"/>
         <TextBox Name="mothPesText" HorizontalAlignment="Left" Height="23" Margin="175,318,0,0" TextWrapping="Wrap" Text="{Binding MothersPesel}" VerticalAlignment="Top" Width="195" Visibility="{Binding MotherVisibility}"/>
         <Label Name="peselLabel" Content="Pesel" HorizontalAlignment="Left" Margin="58,36,0,0" VerticalAlignment="Top"/>
@@ -18,7 +18,7 @@
         <Label Name="middleNameLabel" Content="Drugie Imię" HorizontalAlignment="Left" Margin="58,115,0,0" VerticalAlignment="Top"/>
         <Label Name="lastNameLabel" Content="Nazwisko" HorizontalAlignment="Left" Margin="58,159,0,0" VerticalAlignment="Top"/>
         <Label Name="birthLabel" Content="Data urodzenia" HorizontalAlignment="Left" Margin="58,203,0,0" VerticalAlignment="Top"/>
-        <Label Name="sexLabel" Content="Płeć" HorizontalAlignment="Left" Margin="58,241,0,0" VerticalAlignment="Top"/>
+        <Label Name="sexLabel" Content="Czy Mężczyzna" HorizontalAlignment="Left" Margin="58,241,0,0" VerticalAlignment="Top"/>
         <Label Name="dateLabel" Content="Data Wystawienia" HorizontalAlignment="Left" Margin="58,276,0,0" VerticalAlignment="Top" Visibility="{Binding ChangeVisibility}"/>
         <Label Name="mothPesLabel" Content="Pesel Matki" HorizontalAlignment="Left" Margin="58,315,0,0" VerticalAlignment="Top" Visibility="{Binding MotherVisibility}"/>
 

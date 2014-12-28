@@ -25,5 +25,11 @@ namespace DboActivity.Dialog
             InitializeComponent();
             this.DataContext = dboDialogVM;
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.BirthDataGrid.Items.Refresh();
+        }
+
     }
 }

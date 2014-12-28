@@ -2,6 +2,7 @@
 using Microsoft.Practices.Prism.Commands;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data.SqlClient;
 using System.Linq;
@@ -14,6 +15,8 @@ namespace DboActivity.Dialog
     public class DboDialogViewModel : INotifyPropertyChanged
     {
         private string _windowName;
+        private object _data;
+        private Model model = new Model();
         private readonly DelegateCommand _insertDialogPopup;
         private string connectionString = "Data Source=AGALAP;Initial Catalog=\"D:\\PROJEKTY VISUAL\\POPULATIONREGISTERING\\POPULATIONREGISTER.MDF\";Integrated Security=True";
 
@@ -41,7 +44,26 @@ namespace DboActivity.Dialog
             get { return _windowName; }
         }
 
-        public object Data { get; set; }
+        public object Data 
+        {
+            get { return _data; }
+            set { _data = value; }
+        }
+
+        public object SelectedObject { get; set; }
+        public bool UnlockButton 
+        {
+            get
+            {
+                if (SelectedObject == null)
+                {
+                    return false;
+                }
+                return true;
+            }  
+        }
+        
+
 
         public ICommand InsertDialogCommand { get { return _insertDialogPopup; } }
 
@@ -54,105 +76,34 @@ namespace DboActivity.Dialog
                 {
                     case "Dane Osobowe":
                         {
-                            var context = new Entities();
-                            var data = from p in context.Person
-                                       select new
-                                       {
-                                           p.pesel,
-                                           p.firstName,
-                                           p.middleName,
-                                           p.lastName,
-                                           p.dateOfBirth,
-                                           p.sex
-                                       };
-                            Data = data.ToList();
-                        }
+                            model.ShowPersonalData();
+                            Data = model.PData;
+                        }                       
                         break;
                     case "Narodziny":
                         {
-                            var context = new Entities();
-                            var data = from p in context.Person
-                                       join b in context.Births on p.pesel equals b.pesel
-                                       select new
-                                       {
-                                           p.pesel,
-                                           p.firstName,
-                                           p.middleName,
-                                           p.lastName,
-                                           b.date,
-                                           b.mothersPesel
-                                       };
-                            Data = data.ToList();
+                            model.ShowBirth();
+                            Data = model.BData;
                         }
                         break;
                     case "Zgony":
                         {
-                            var context = new Entities();
-                            var data = from p in context.Person
-                                       join d in context.Deaths on p.pesel equals d.pesel
-                                       select new
-                                       {
-                                           p.pesel,
-                                           p.firstName,
-                                           p.middleName,
-                                           p.lastName,
-                                           d.date,
-                                           d.ID
-                                       };
-                            Data = data.ToList();
+                            model.ShowDeath();
+                            Data = model.DData;
                         }
                         break;
                     case "Małżeństwa":
                         {
-                            var context = new Entities();
-                            var data = from m in context.Marriages
-                                       join p in context.Person on m.pesel equals p.pesel
-                                       join p1 in context.Person on m.pesel2 equals p1.pesel
-                                       select new
-                                       {
-                                           m.pesel,
-                                           p.firstName,
-                                           p.middleName,
-                                           p.lastName,
-                                           m.pesel2,
-                                           partnerFirstName = p1.firstName,
-                                           partnerMiddleName = p1.middleName,
-                                           partnerLastName = p1.lastName,
-                                           m.date,
-                                           m.anulled,
-                                           m.description
-                                       };
-                            Data = data.ToList();
+                            model.ShowMarriage();
+                            Data = model.MData;
                         }
                         break;
                     case "Zameldowanie":
                         {
-                            var context = new Entities();
-                            var data = from p in context.Person
-                                       join a in context.Accommodation on p.permanentAddress_ID equals a.ID
-                                       join a1 in context.Accommodation on p.temporaryAddress_ID equals a1.ID
-                                       select new
-                                       {
-                                           p.pesel,
-                                           p.firstName,
-                                           p.lastName,
-                                           a.country,
-                                           a.city,
-                                           a.postCode,
-                                           a.street,
-                                           a.buildingNumber,
-                                           a.flatNumber,
-                                           tmpCountry = a1.country,
-                                           tmpCity = a1.city,
-                                           tmpPCode = a1.postCode,
-                                           tmpStreet = a1.street,
-                                           tmpBNumber = a1.buildingNumber,
-                                           tmpFNumber = a1.flatNumber
-                                       };
-                            Data = data.ToList();
+                            model.ShowAccomodation();
+                            Data = model.AData;
                         }
                         break;
-
                 }
 
                 db.Close();
@@ -178,6 +129,12 @@ namespace DboActivity.Dialog
                                 context.Person.Add(FillPerson(insertVM.Pesel,insertVM.FirstName,insertVM.MiddleName, insertVM.LastName,insertVM.DateOfBirth,insertVM.Sex));                              
                                 context.Births.Add(FillBirth(1, insertVM.Date, insertVM.Pesel, insertVM.MothersPesel));
                                 context.SaveChanges();
+                                Birth birth = new Birth();
+                                birth.Pesel = insertVM.Pesel; birth.FirstName = insertVM.FirstName; birth.MiddleName = insertVM.MiddleName;
+                                birth.LastName = insertVM.LastName; birth.Date = insertVM.DateOfBirth; birth.MothersPesel = insertVM.MothersPesel;
+                                model.BData.Add(birth);
+                                NotifyPropertyChanged("Data");
+
                             }
                         }
                         break;
@@ -194,29 +151,34 @@ namespace DboActivity.Dialog
                                 Person personToUpdate = personList.Where(p => p.pesel.Equals(insertVM.Pesel)).FirstOrDefault<Person>();
                                 personToUpdate.isDead = true;
                                 context.SaveChanges();
+                                Death death = new Death();
+                                death.FirstName = insertVM.FirstName; death.LastName = insertVM.LastName; death.MiddleName = insertVM.MiddleName;
+                                death.Pesel = insertVM.Pesel; death.Date = insertVM.Date;
+                                model.DData.Add(death);
+                                NotifyPropertyChanged("Data");
                             }
                         }
                         break;
                     case "Małżeństwa":
-                        {
-                            var context = new Entities();
-                            //dialog.showdialog
-                            //walidacja
-                            Person person = FillPerson(), person1 = FillPerson();
-                            var personList = context.Person.ToList();
-                            Person personToFind = personList.Where(p => p.pesel.Equals(person.pesel)).FirstOrDefault<Person>();
-                            Person personToFind1 = personList.Where(p => p.pesel.Equals(person1.pesel)).FirstOrDefault<Person>();
-                            if (personToFind.Equals(null))
-                            {
-                                context.Person.Add(person);
-                            }
-                            if (personToFind1.Equals(null))
-                            {
-                                context.Person.Add(person1);
-                            }
-                            context.Marriages.Add(new Marriages());
-                            context.SaveChanges();
-                        }
+                        //{
+                        //    var context = new Entities();
+                        //    //dialog.showdialog
+                        //    //walidacja
+                        //    //Person person = FillPerson(), person1 = FillPerson();
+                        //    var personList = context.Person.ToList();
+                        //    Person personToFind = personList.Where(p => p.pesel.Equals(person.pesel)).FirstOrDefault<Person>();
+                        //    Person personToFind1 = personList.Where(p => p.pesel.Equals(person1.pesel)).FirstOrDefault<Person>();
+                        //    if (personToFind.Equals(null))
+                        //    {
+                        //        context.Person.Add(person);
+                        //    }
+                        //    if (personToFind1.Equals(null))
+                        //    {
+                        //        context.Person.Add(person1);
+                        //    }
+                        //    context.Marriages.Add(new Marriages());
+                        //    context.SaveChanges();
+                        //}
                         break;
                     case "Dane Osobowe":
                         {
@@ -229,9 +191,37 @@ namespace DboActivity.Dialog
                                 context.Person.Add(FillPerson(insertVM.Pesel, insertVM.FirstName, insertVM.MiddleName, insertVM.LastName, insertVM.DateOfBirth, insertVM.Sex));
                             }
                             context.SaveChanges();
+                            PersonDetails persona = new PersonDetails();
+                            persona.Pesel = insertVM.Pesel; persona.FirstName = insertVM.FirstName; persona.MiddleName = insertVM.MiddleName;
+                            persona.LastName = insertVM.LastName; persona.IsMale = insertVM.Sex; persona.DateOfBirth = insertVM.DateOfBirth;
+                            model.PData.Add(persona);
+                            NotifyPropertyChanged("Data");
                         }
                         break;
                 }
+            }
+        }
+
+        public void ModifyAndPushToDB()
+        {
+            using (SqlConnection db = new SqlConnection(connectionString))
+            {
+                db.Open();
+                switch (WindowName)
+                {
+                    case "Narodziny":
+
+                        break;
+                    case "Zgony":
+                        break;
+                    case "Zameldowanie":
+                        break;
+                    case "Dane Osobowe":
+                        break;
+                    case "Małżeństwa":
+                        break;
+                }
+                db.Close();
             }
         }
 
