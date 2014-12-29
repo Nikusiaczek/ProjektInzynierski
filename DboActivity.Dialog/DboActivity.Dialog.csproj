@@ -185,9 +185,17 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AddMariage\AddMariage.csproj">
+      <Project>{7b1c198e-3645-488c-8475-9267a7f2915e}</Project>
+      <Name>AddMariage</Name>
+    </ProjectReference>
     <ProjectReference Include="..\InsertDialog\InsertDialog.csproj">
       <Project>{667ae82d-b02a-4730-bf75-dfd60c384164}</Project>
       <Name>InsertDialog</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModifyDialog\ModifyDialog.csproj">
+      <Project>{bced831c-d81a-4722-b909-cc2fce65bbc9}</Project>
+      <Name>ModifyDialog</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

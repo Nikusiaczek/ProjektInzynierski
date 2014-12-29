@@ -1,5 +1,7 @@
-﻿using InsertDialog;
+﻿using AddMariage;
+using InsertDialog;
 using Microsoft.Practices.Prism.Commands;
+using ModifyDialog;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,6 +10,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace DboActivity.Dialog
@@ -18,6 +21,8 @@ namespace DboActivity.Dialog
         private object _data;
         private Model model = new Model();
         private readonly DelegateCommand _insertDialogPopup;
+        private readonly DelegateCommand _modifyDialog;
+        private readonly DelegateCommand _deleteDialog;
         private string connectionString = "Data Source=AGALAP;Initial Catalog=\"D:\\PROJEKTY VISUAL\\POPULATIONREGISTERING\\POPULATIONREGISTER.MDF\";Integrated Security=True";
 
 
@@ -26,11 +31,13 @@ namespace DboActivity.Dialog
             this._windowName = windowName;
             PrepareDataGrid(windowName);
             _insertDialogPopup = new DelegateCommand(AddToDB);
+            _modifyDialog = new DelegateCommand(ModifyAndPushToDB);
+            _deleteDialog = new DelegateCommand(DeleteAndPushToDB);
         }
 
         public bool Inactive
         {
-            get 
+            get
             {
                 if (WindowName.Equals("Zameldowanie"))
                 {
@@ -44,7 +51,7 @@ namespace DboActivity.Dialog
             get { return _windowName; }
         }
 
-        public object Data 
+        public object Data
         {
             get { return _data; }
             set { _data = value; }
@@ -55,21 +62,10 @@ namespace DboActivity.Dialog
             get;
             set;
         }
-        public bool UnlockButton 
-        {
-            get
-            {
-                if (SelectedObject == null)
-                {
-                    return false;
-                }
-                return true;
-            }  
-        }
-        
-
 
         public ICommand InsertDialogCommand { get { return _insertDialogPopup; } }
+        public ICommand ModifyDialogCommand { get { return _modifyDialog; } }
+        public ICommand DeleteDialogCommand { get { return _deleteDialog; } }
 
         private void PrepareDataGrid(string windowName)
         {
@@ -82,7 +78,7 @@ namespace DboActivity.Dialog
                         {
                             model.ShowPersonalData();
                             Data = model.PData;
-                        }                       
+                        }
                         break;
                     case "Narodziny":
                         {
@@ -130,7 +126,7 @@ namespace DboActivity.Dialog
                             bool? res = dialog.ShowDialog();
                             if (res.HasValue && res.Value)
                             {
-                                context.Person.Add(FillPerson(insertVM.Pesel,insertVM.FirstName,insertVM.MiddleName, insertVM.LastName,insertVM.DateOfBirth,insertVM.Sex));                              
+                                context.Person.Add(FillPerson(insertVM.Pesel, insertVM.FirstName, insertVM.MiddleName, insertVM.LastName, insertVM.DateOfBirth, insertVM.Sex));
                                 context.Births.Add(FillBirth(1, insertVM.Date, insertVM.Pesel, insertVM.MothersPesel));
                                 context.SaveChanges();
                                 Birth birth = new Birth();
@@ -150,7 +146,7 @@ namespace DboActivity.Dialog
                             bool? res = dialog.ShowDialog();
                             if (res.HasValue && res.Value)
                             {
-                                context.Deaths.Add(FillDeath(1,insertVM.Date, insertVM.Pesel));
+                                context.Deaths.Add(FillDeath(1, insertVM.Date, insertVM.Pesel));
                                 var personList = context.Person.ToList();
                                 Person personToUpdate = personList.Where(p => p.pesel.Equals(insertVM.Pesel)).FirstOrDefault<Person>();
                                 personToUpdate.isDead = true;
@@ -164,25 +160,35 @@ namespace DboActivity.Dialog
                         }
                         break;
                     case "Małżeństwa":
-                        //{
-                        //    var context = new Entities();
-                        //    //dialog.showdialog
-                        //    //walidacja
-                        //    //Person person = FillPerson(), person1 = FillPerson();
-                        //    var personList = context.Person.ToList();
-                        //    Person personToFind = personList.Where(p => p.pesel.Equals(person.pesel)).FirstOrDefault<Person>();
-                        //    Person personToFind1 = personList.Where(p => p.pesel.Equals(person1.pesel)).FirstOrDefault<Person>();
-                        //    if (personToFind.Equals(null))
-                        //    {
-                        //        context.Person.Add(person);
-                        //    }
-                        //    if (personToFind1.Equals(null))
-                        //    {
-                        //        context.Person.Add(person1);
-                        //    }
-                        //    context.Marriages.Add(new Marriages());
-                        //    context.SaveChanges();
-                        //}
+                        {
+                            var context = new Entities();
+                            AddMarriageViewModel addVM = new AddMarriageViewModel();
+                            AddMarriageWindow dialog = new AddMarriageWindow(addVM);
+                            bool? res = dialog.ShowDialog();
+                            if (res.HasValue && res.Value)
+                            {
+                                Person person = FillPerson(addVM.Pesel1, addVM.FirstName1, addVM.MiddleName1, addVM.LastName1, addVM.DateOfBirth1, addVM.Sex1),
+                                       person1 = FillPerson(addVM.Pesel2, addVM.FirstName2, addVM.MiddleName2, addVM.LastName2, addVM.DateOfBirth2, addVM.Sex2);
+                                var personList = context.Person.ToList();
+                                Person personToFind = personList.Where(p => p.pesel.Equals(person.pesel)).FirstOrDefault<Person>();
+                                Person personToFind1 = personList.Where(p => p.pesel.Equals(person1.pesel)).FirstOrDefault<Person>();
+                                if (personToFind == null)
+                                {
+                                    context.Person.Add(person);
+                                }
+                                if (personToFind1 == null)
+                                {
+                                    context.Person.Add(person1);
+                                }
+                                context.Marriages.Add(FillMariage(addVM.ActNumber, addVM.Pesel1, addVM.Pesel2, addVM.Date));
+                                context.SaveChanges();
+                                Marriage marriage = new Marriage();
+                                marriage.Pesel1 = addVM.Pesel1; marriage.FirstName1 = addVM.FirstName1; marriage.MiddleName1 = addVM.MiddleName1;
+                                marriage.LastName1 = addVM.LastName1; marriage.Pesel2 = addVM.Pesel2; marriage.FirstName2 = addVM.FirstName2;
+                                marriage.MiddleName2 = addVM.MiddleName2; marriage.LastName2 = addVM.LastName2; marriage.Date = addVM.Date;
+                                model.MData.Add(marriage);
+                            }
+                        }
                         break;
                     case "Dane Osobowe":
                         {
@@ -206,6 +212,7 @@ namespace DboActivity.Dialog
             }
         }
 
+        //todo
         public void ModifyAndPushToDB()
         {
             using (SqlConnection db = new SqlConnection(connectionString))
@@ -214,18 +221,134 @@ namespace DboActivity.Dialog
                 switch (WindowName)
                 {
                     case "Narodziny":
-
+                        if (SelectedObject != null)
+                        {
+                            Birth birth = (Birth)SelectedObject;                         
+                            ModifyViewModel modVM = new ModifyViewModel();
+                            modVM.Pesel = birth.Pesel; modVM.MothersPesel = birth.MothersPesel; modVM.DateOfBirth = birth.Date;
+                            ModifyDialogWindow dialog = new ModifyDialogWindow(modVM);
+                            bool? res = dialog.ShowDialog();
+                            if (res.HasValue && res.Value)
+                            {
+                                
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Zaznacz wiersz!","Błąd!", MessageBoxButton.OK,MessageBoxImage.Error);
+                        }
                         break;
                     case "Zgony":
+                        if (SelectedObject != null)
+                        {
+                            Death death = (Death)SelectedObject;
+                            ModifyViewModel modVM = new ModifyViewModel();
+                            modVM.Pesel = death.Pesel; modVM.Code = death.ActNumber; modVM.DateOfBirth = death.Date;
+                            ModifyDialogWindow dialog = new ModifyDialogWindow(modVM);
+                            bool? res = dialog.ShowDialog();
+                            if (res.HasValue && res.Value)
+                            {
+
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Zaznacz wiersz!", "Błąd!", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
                         break;
                     case "Zameldowanie":
+                        if (SelectedObject != null)
+                        {
+                            Accomodate acc = (Accomodate)SelectedObject;
+                            ModifyViewModel modVM = new ModifyViewModel();
+                            modVM.Pesel = acc.Pesel;
+                            ModifyDialogWindow dialog = new ModifyDialogWindow(modVM);
+                            bool? res = dialog.ShowDialog();
+                            if (res.HasValue && res.Value)
+                            {
+
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Zaznacz wiersz!", "Błąd!", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
                         break;
                     case "Dane Osobowe":
+                        if (SelectedObject != null)
+                        {
+                            PersonDetails personD = (PersonDetails)SelectedObject;
+                            ModifyViewModel modVM = new ModifyViewModel();
+                            modVM.Pesel = personD.Pesel; modVM.DateOfBirth = personD.DateOfBirth;
+                            ModifyDialogWindow dialog = new ModifyDialogWindow(modVM);
+                            bool? res = dialog.ShowDialog();
+                            if (res.HasValue && res.Value)
+                            {
+
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Zaznacz wiersz!", "Błąd!", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
                         break;
                     case "Małżeństwa":
+                        if (SelectedObject != null)
+                        {
+                            Marriage marriage = (Marriage)SelectedObject;
+                            ModifyViewModel modVM = new ModifyViewModel();
+                            modVM.Pesel = marriage.Pesel1; modVM.Date = marriage.Date;
+                            ModifyDialogWindow dialog = new ModifyDialogWindow(modVM);
+                            bool? res = dialog.ShowDialog();
+                            if (res.HasValue && res.Value)
+                            {
+
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Zaznacz wiersz!", "Błąd!", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
                         break;
                 }
                 db.Close();
+            }
+        }
+
+        //todo
+        public void DeleteAndPushToDB()
+        {
+            using (SqlConnection db = new SqlConnection(connectionString))
+            {
+                db.Open();
+
+                if (SelectedObject != null)
+                {
+                    MessageBoxResult result = MessageBox.Show("Jesteś pewien?", "Usuń", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (result.Equals(MessageBoxResult.Yes))
+                    {
+                        switch (WindowName)
+                        {
+                            case "Narodziny":
+
+                                break;
+                            case "Zgony":
+
+                                break;
+                            case "Dane Osobowe":
+
+                                break;
+                            case "Małżeństwa":
+
+                                break;
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Zaznacz wiersz!", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                
             }
         }
 

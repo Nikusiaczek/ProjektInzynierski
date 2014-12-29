@@ -1,0 +1,33 @@
+﻿<Window x:Class="AddMariage.AddMarriageWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="450" Width="450" WindowStyle="ToolWindow">
+    <Grid>
+        <Label Content="Pesel 1:" HorizontalAlignment="Left" Margin="21,28,0,0" VerticalAlignment="Top"/>
+        <Label Content="Imiona:" HorizontalAlignment="Left" Margin="21,59,0,0" VerticalAlignment="Top"/>
+        <Label Content="Nazwisko:" HorizontalAlignment="Left" Margin="21,90,0,0" VerticalAlignment="Top"/>
+        <Label Content="Pesel 2:" HorizontalAlignment="Left" Margin="21,152,0,0" VerticalAlignment="Top"/>
+        <Label Content="Imiona:" HorizontalAlignment="Left" Margin="21,183,0,0" VerticalAlignment="Top"/>
+        <Label Content="Nazwisko:" HorizontalAlignment="Left" Margin="21,214,0,0" VerticalAlignment="Top"/>
+        <Label Content="Data zawarcia:" HorizontalAlignment="Left" Margin="21,307,0,0" VerticalAlignment="Top"/>
+        <Label Content="Nr Aktu:" HorizontalAlignment="Left" Margin="21,276,0,0" VerticalAlignment="Top"/>
+        <Label Content="Data urodzenia:" HorizontalAlignment="Left" Margin="21,121,0,0" VerticalAlignment="Top"/>
+        <Label Content="Data urodzenia:" HorizontalAlignment="Left" Margin="21,245,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="153,30,0,0" TextWrapping="Wrap" Text="{Binding Pesel1}" VerticalAlignment="Top" Width="120"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="153,61,0,0" TextWrapping="Wrap" Text="{Binding FirstName1}" VerticalAlignment="Top" Width="120"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="153,92,0,0" TextWrapping="Wrap" Text="{Binding LastName1}" VerticalAlignment="Top" Width="120"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="153,123,0,0" TextWrapping="Wrap" Text="{Binding DateOfBirth1}" VerticalAlignment="Top" Width="120"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="153,154,0,0" TextWrapping="Wrap" Text="{Binding Pesel2}" VerticalAlignment="Top" Width="120"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="153,185,0,0" TextWrapping="Wrap" Text="{Binding FirstName2}" VerticalAlignment="Top" Width="120"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="153,216,0,0" TextWrapping="Wrap" Text="{Binding LastName2}" VerticalAlignment="Top" Width="120"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="153,247,0,0" TextWrapping="Wrap" Text="{Binding DateOfBirth2}" VerticalAlignment="Top" Width="120"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="153,278,0,0" TextWrapping="Wrap" Text="{Binding ActNumber}" VerticalAlignment="Top" Width="120"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="153,309,0,0" TextWrapping="Wrap" Text="{Binding Date}" VerticalAlignment="Top" Width="120"/>
+        <Button Content="Dodaj" HorizontalAlignment="Left" Margin="65,359,0,0" VerticalAlignment="Top" Width="82" Height="32" IsDefault="True" Click="Button_Click"/>
+        <Button Content="Anuluj" Margin="215,359,65,0" VerticalAlignment="Top" Height="32" IsCancel="True"/>
+        <CheckBox Content="Mężczyzna" HorizontalAlignment="Left" Margin="291,33,0,0" VerticalAlignment="Top" IsChecked="{Binding Sex1}"/>
+        <CheckBox Content="Mężczyzna" HorizontalAlignment="Left" Margin="291,152,0,0" VerticalAlignment="Top" IsChecked="{Binding Sex2}"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="291,61,0,0" TextWrapping="Wrap" Text="{Binding MiddleName1}" VerticalAlignment="Top" Width="120"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="291,185,0,0" TextWrapping="Wrap" Text="{Binding MiddleName2}" VerticalAlignment="Top" Width="120"/>
+    </Grid>
+</Window>

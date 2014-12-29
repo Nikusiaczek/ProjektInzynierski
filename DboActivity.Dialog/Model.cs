@@ -116,16 +116,6 @@ namespace DboActivity.Dialog
                        };
             AData = new ObservableCollection<Accomodate>(data);
         }      
-
-        public void ModifyValue()
-        {
-
-        }
-
-        public void DeleteValue()
-        {
-
-        }
     }
 }
 

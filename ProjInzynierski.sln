@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserWindow", "BrowserWin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModifyDialog", "ModifyDialog\ModifyDialog.csproj", "{BCED831C-D81A-4722-B909-CC2FCE65BBC9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddMariage", "AddMariage\AddMariage.csproj", "{7B1C198E-3645-488C-8475-9267A7F2915E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{BCED831C-D81A-4722-B909-CC2FCE65BBC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BCED831C-D81A-4722-B909-CC2FCE65BBC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BCED831C-D81A-4722-B909-CC2FCE65BBC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B1C198E-3645-488C-8475-9267A7F2915E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B1C198E-3645-488C-8475-9267A7F2915E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B1C198E-3645-488C-8475-9267A7F2915E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B1C198E-3645-488C-8475-9267A7F2915E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

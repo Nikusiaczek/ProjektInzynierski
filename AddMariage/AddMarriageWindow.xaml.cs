@@ -13,17 +13,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ModifyDialog
+namespace AddMariage
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class ModifyDialogWindow : Window
+    public partial class AddMarriageWindow : Window
     {
-        public ModifyDialogWindow( ModifyViewModel modifyVM)
+        public AddMarriageWindow( AddMarriageViewModel addMarriageVM)
         {
             InitializeComponent();
-            this.DataContext = modifyVM;
+            this.DataContext = addMarriageVM;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

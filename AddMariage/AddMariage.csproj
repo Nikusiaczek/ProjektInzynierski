@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BCED831C-D81A-4722-B909-CC2FCE65BBC9}</ProjectGuid>
+    <ProjectGuid>{7B1C198E-3645-488C-8475-9267A7F2915E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ModifyDialog</RootNamespace>
-    <AssemblyName>ModifyDialog</AssemblyName>
+    <RootNamespace>AddMariage</RootNamespace>
+    <AssemblyName>AddMariage</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -53,17 +53,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Modify_Dialog.xaml">
+    <Page Include="AddMarriageWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="AddMarriageViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ModifyViewModel.cs" />
-    <Compile Include="Modify_Dialog.xaml.cs">
-      <DependentUpon>Modify_Dialog.xaml</DependentUpon>
+    <Compile Include="AddMarriageWindow.xaml.cs">
+      <DependentUpon>AddMarriageWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
