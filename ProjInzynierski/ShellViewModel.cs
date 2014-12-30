@@ -1,4 +1,5 @@
-﻿using DboActivity.Dialog;
+﻿using BrowserWindow;
+using DboActivity.Dialog;
 using Microsoft.Practices.Prism.Commands;
 using System;
 using System.Collections.Generic;
@@ -14,10 +15,12 @@ namespace ProjInzynierski
     public class ShellViewModel: INotifyPropertyChanged
     {
         private readonly DelegateCommand<object> _dialogPopupCommand;
+        private readonly DelegateCommand _browserPopup;
 
         public ShellViewModel()
         {
             _dialogPopupCommand = new DelegateCommand<object>(Popup, CanConnect);
+            _browserPopup = new DelegateCommand(BrowserPop);
         }
 
         private void Popup(object sender)
@@ -29,12 +32,19 @@ namespace ProjInzynierski
             
         }
 
+        private void BrowserPop()
+        {
+            BrowserMainWindow window = new BrowserMainWindow(new BrowserViewModel());
+            window.Show();
+        }
+
         private bool CanConnect(object sender)
         {
             return true;
         }
 
         public ICommand PopupCommand { get { return _dialogPopupCommand; } }
+        public ICommand BrowserCommand { get { return _browserPopup; } }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

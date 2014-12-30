@@ -128,6 +128,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BrowserWindow\BrowserWindow.csproj">
+      <Project>{98076d3f-67aa-4572-8f0a-6d03c50977ae}</Project>
+      <Name>BrowserWindow</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DboActivity.Dialog\DboActivity.Dialog.csproj">
       <Project>{046ff2f3-a2b6-49ac-af09-dc33e68f7a32}</Project>
       <Name>DboActivity.Dialog</Name>

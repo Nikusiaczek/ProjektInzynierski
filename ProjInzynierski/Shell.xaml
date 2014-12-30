@@ -19,6 +19,6 @@
         <Button Name ="marriageButton" Content="Małżeństwa" HorizontalAlignment="Left" Margin="0,88,0,0" VerticalAlignment="Top" Width="90" Height="70" Grid.Column="1" Grid.Row="1" Command="{Binding PopupCommand}" CommandParameter="{Binding ElementName=marriageButton}"/>
         <Button Name="personalDataButton" Content="Dane Osobowe" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Height="70" Grid.Column="1" Grid.Row="1" Command="{Binding PopupCommand}" CommandParameter="{Binding ElementName=personalDataButton}"/>
         <TextBlock HorizontalAlignment="Center" Height="74" Margin="89,24,54,0" TextWrapping="Wrap" TextAlignment="Center" FontSize="20" Text="Witaj!" VerticalAlignment="Top" Width="280" Grid.Column="1"/>
-        <Button Name="searchButton" Content="Przeglądaj" Margin="333,88,0,0" Height="70" VerticalAlignment="Top" HorizontalAlignment="Center" Width="90" Grid.Column="1" Grid.Row="1"/>
+        <Button Name="searchButton" Content="Przeglądaj" Margin="333,88,0,0" Height="70" VerticalAlignment="Top" HorizontalAlignment="Center" Width="90" Grid.Column="1" Grid.Row="1" Command="{Binding BrowserCommand}"/>
     </Grid>
 </Window>

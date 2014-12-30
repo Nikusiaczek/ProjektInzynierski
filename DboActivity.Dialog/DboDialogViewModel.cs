@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace DboActivity.Dialog
@@ -23,6 +24,7 @@ namespace DboActivity.Dialog
         private readonly DelegateCommand _insertDialogPopup;
         private readonly DelegateCommand _modifyDialog;
         private readonly DelegateCommand _deleteDialog;
+        private readonly DelegateCommand<object> _browser;
         private string connectionString = "Data Source=AGALAP;Initial Catalog=\"D:\\PROJEKTY VISUAL\\POPULATIONREGISTERING\\POPULATIONREGISTER.MDF\";Integrated Security=True";
 
 
@@ -30,9 +32,12 @@ namespace DboActivity.Dialog
         {
             this._windowName = windowName;
             PrepareDataGrid(windowName);
+            model.CreateColumnSet(windowName);
+            ColumnSet = model.ColumnSet;
             _insertDialogPopup = new DelegateCommand(AddToDB);
             _modifyDialog = new DelegateCommand(ModifyAndPushToDB);
             _deleteDialog = new DelegateCommand(DeleteAndPushToDB);
+            _browser = new DelegateCommand<object>(Browse);
         }
 
         public bool Inactive
@@ -63,9 +68,14 @@ namespace DboActivity.Dialog
             set;
         }
 
+        public string SelectedColumn { get; set; }
+        public string SearchPhrase { get; set; }
+        public List<string> ColumnSet { get; set; }
+
         public ICommand InsertDialogCommand { get { return _insertDialogPopup; } }
         public ICommand ModifyDialogCommand { get { return _modifyDialog; } }
         public ICommand DeleteDialogCommand { get { return _deleteDialog; } }
+        public ICommand BrowserCommand { get { return _browser; } }
 
         private void PrepareDataGrid(string windowName)
         {
@@ -110,7 +120,7 @@ namespace DboActivity.Dialog
             }
         }
 
-        public void AddToDB()
+        private void AddToDB()
         {
 
             using (SqlConnection db = new SqlConnection(connectionString))
@@ -213,7 +223,7 @@ namespace DboActivity.Dialog
         }
 
         //todo
-        public void ModifyAndPushToDB()
+        private void ModifyAndPushToDB()
         {
             using (SqlConnection db = new SqlConnection(connectionString))
             {
@@ -223,19 +233,19 @@ namespace DboActivity.Dialog
                     case "Narodziny":
                         if (SelectedObject != null)
                         {
-                            Birth birth = (Birth)SelectedObject;                         
+                            Birth birth = (Birth)SelectedObject;
                             ModifyViewModel modVM = new ModifyViewModel();
                             modVM.Pesel = birth.Pesel; modVM.MothersPesel = birth.MothersPesel; modVM.DateOfBirth = birth.Date;
                             ModifyDialogWindow dialog = new ModifyDialogWindow(modVM);
                             bool? res = dialog.ShowDialog();
                             if (res.HasValue && res.Value)
                             {
-                                
+
                             }
                         }
                         else
                         {
-                            MessageBox.Show("Zaznacz wiersz!","Błąd!", MessageBoxButton.OK,MessageBoxImage.Error);
+                            MessageBox.Show("Zaznacz wiersz!", "Błąd!", MessageBoxButton.OK, MessageBoxImage.Error);
                         }
                         break;
                     case "Zgony":
@@ -315,31 +325,46 @@ namespace DboActivity.Dialog
             }
         }
 
-        //todo
-        public void DeleteAndPushToDB()
+        private void DeleteAndPushToDB()
         {
             using (SqlConnection db = new SqlConnection(connectionString))
             {
                 db.Open();
-
                 if (SelectedObject != null)
                 {
                     MessageBoxResult result = MessageBox.Show("Jesteś pewien?", "Usuń", MessageBoxButton.YesNo, MessageBoxImage.Question);
                     if (result.Equals(MessageBoxResult.Yes))
                     {
+                        var context = new Entities();
                         switch (WindowName)
                         {
                             case "Narodziny":
-
+                                Birth birth = (Birth)SelectedObject;
+                                var birthList = context.Births.ToList();
+                                Births birthToFind = birthList.Where(p => p.pesel.Equals(birth.Pesel)).FirstOrDefault<Births>();
+                                context.Births.Remove(birthToFind);
+                                context.SaveChanges();
                                 break;
                             case "Zgony":
-
+                                Death death = (Death)SelectedObject;
+                                var deathList = context.Deaths.ToList();
+                                Deaths deathToFind = deathList.Where(p => p.pesel.Equals(death.Pesel)).FirstOrDefault<Deaths>();
+                                context.Deaths.Remove(deathToFind);
+                                context.SaveChanges();
                                 break;
                             case "Dane Osobowe":
-
+                                PersonDetails person = (PersonDetails)SelectedObject;
+                                var personList = context.Person.ToList();
+                                Person personToFind = personList.Where(p => p.pesel.Equals(person.Pesel)).FirstOrDefault<Person>();
+                                context.Person.Remove(personToFind);
+                                context.SaveChanges();
                                 break;
                             case "Małżeństwa":
-
+                                Marriage marriage = (Marriage)SelectedObject;
+                                var marriageList = context.Marriages.ToList();
+                                Marriages marriageToFind = marriageList.Where(p => p.pesel.Equals(marriage.Pesel1) || p.pesel.Equals(marriage.Pesel2)).FirstOrDefault<Marriages>();
+                                context.Marriages.Remove(marriageToFind);
+                                context.SaveChanges();
                                 break;
                         }
                     }
@@ -348,7 +373,245 @@ namespace DboActivity.Dialog
                 {
                     MessageBox.Show("Zaznacz wiersz!", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-                
+                db.Close();
+            }
+        }
+
+        private void Browse(object sender)
+        {
+            ComboBox combo = sender as ComboBox;
+            if (combo != null && SearchPhrase != null)
+            {
+                SelectedColumn = combo.SelectedValue.ToString();
+                switch (WindowName)
+                {
+                    case "Dane Osobowe":
+                        IEnumerable<PersonDetails> listaP = new ObservableCollection<PersonDetails>();
+                        switch (SelectedColumn)
+                        {
+                            case "Pesel":
+                                decimal pesel = Decimal.Parse(SearchPhrase);
+                                listaP = model.PData.Where(o => o.Pesel == pesel);
+                                Data = listaP;
+                                break;
+                            case "Imię":
+                                listaP = model.PData.Where(o => o.FirstName == SearchPhrase);
+                                Data = listaP;
+                                break;
+                            case "Drugie Imię":
+                                listaP = model.PData.Where(o => o.MiddleName == SearchPhrase);
+                                Data = listaP;
+                                break;
+                            case "Nazwisko":
+                                listaP = model.PData.Where(o => o.LastName == SearchPhrase);
+                                Data = listaP;
+                                break;
+                            case "Data Urodzenia":
+                                DateTime date = DateTime.Parse(SearchPhrase);
+                                listaP = model.PData.Where(o => o.DateOfBirth == date);
+                                Data = listaP;
+                                break;
+                            case "Czy Mężczyzna":
+                                bool ismale = Boolean.Parse(SearchPhrase);
+                                listaP = model.PData.Where(o => o.IsMale == ismale);
+                                Data = listaP;
+                                break;
+                        }
+                        break;
+                    case "Narodziny":
+                        IEnumerable<Birth> listaB = new ObservableCollection<Birth>();
+                        switch (SelectedColumn)
+                        {
+                            case "Pesel":
+                                decimal pesel = Decimal.Parse(SearchPhrase);
+                                listaB = model.BData.Where(o => o.Pesel == pesel);
+                                Data = listaB;
+                                break;
+                            case "Imię":
+                                listaB = model.BData.Where(o => o.FirstName == SearchPhrase);
+                                Data = listaB;
+                                break;
+                            case "Drugie Imię":
+                                listaB = model.BData.Where(o => o.MiddleName == SearchPhrase);
+                                Data = listaB;
+                                break;
+                            case "Nazwisko":
+                                listaB = model.BData.Where(o => o.LastName == SearchPhrase);
+                                Data = listaB;
+                                break;
+                            case "Data":
+                                DateTime date = DateTime.Parse(SearchPhrase);
+                                listaB = model.BData.Where(o => o.Date == date);
+                                Data = listaB;
+                                break;
+                            case "Pesel Matki":
+                                decimal mompesel = Decimal.Parse(SearchPhrase);
+                                listaB = model.BData.Where(o => o.Pesel == mompesel);
+                                Data = listaB;
+                                break;
+                        }
+                        break;
+                    case "Małżeństwa":
+                        IEnumerable<Marriage> listaM = new ObservableCollection<Marriage>();
+                        switch (SelectedColumn)
+                        {
+                            case "Pesel1":
+                                decimal pesel1 = Decimal.Parse(SearchPhrase);
+                                listaM = model.MData.Where(o => o.Pesel1 == pesel1);
+                                Data = listaM;
+                                break;
+                            case "Imię":
+                                listaM = model.MData.Where(o => o.FirstName1 == SearchPhrase);
+                                Data = listaM;
+                                break;
+                            case "Drugie Imię":
+                                listaM = model.MData.Where(o => o.MiddleName1 == SearchPhrase);
+                                Data = listaM;
+                                break;
+                            case "Nazwisko":
+                                listaM = model.MData.Where(o => o.LastName1 == SearchPhrase);
+                                Data = listaM;
+                                break;
+                            case "Pesel2":
+                                decimal pesel2 = Decimal.Parse(SearchPhrase);
+                                listaM = model.MData.Where(o => o.Pesel2 == pesel2);
+                                Data = listaM;
+                                break;
+                            case "Imię2":
+                                listaM = model.MData.Where(o => o.FirstName2 == SearchPhrase);
+                                Data = listaM;
+                                break;
+                            case "Drugie Imię2":
+                                listaM = model.MData.Where(o => o.MiddleName2 == SearchPhrase);
+                                Data = listaM;
+                                break;
+                            case "Nazwisko2":
+                                listaM = model.MData.Where(o => o.LastName2 == SearchPhrase);
+                                Data = listaM;
+                                break;
+                            case "Data":
+                                DateTime date = DateTime.Parse(SearchPhrase);
+                                listaM = model.MData.Where(o => o.Date == date);
+                                Data = listaM;
+                                break;
+                            case "Anulowano":
+                                DateTime anulled = DateTime.Parse(SearchPhrase);
+                                listaM = model.MData.Where(o => o.Date == anulled);
+                                Data = listaM;
+                                break;
+                            case "Opis":
+                                listaM = model.MData.Where(o => o.Description == SearchPhrase);
+                                Data = listaM;
+                                break;
+                        }
+                        break;
+                    case "Zameldowanie":
+                        IEnumerable<Accomodate> listaA = new ObservableCollection<Accomodate>();
+                        switch (SelectedColumn)
+                        {
+                            case "Pesel":
+                                decimal pesel = Decimal.Parse(SearchPhrase);
+                                listaA = model.AData.Where(o => o.Pesel == pesel);
+                                Data = listaA;
+                                break;
+                            case "Imię":
+                                listaA = model.AData.Where(o => o.FirstName == SearchPhrase);
+                                Data = listaA;
+                                break;
+                            case "Nazwisko":
+                                listaA = model.AData.Where(o => o.LastName == SearchPhrase);
+                                Data = listaA;
+                                break;
+                            case "Kraj":
+                                listaA = model.AData.Where(o => o.Country == SearchPhrase);
+                                Data = listaA;
+                                break;
+                            case "Miasto":
+                                listaA = model.AData.Where(o => o.City == SearchPhrase);
+                                Data = listaA;
+                                break;
+                            case "Kod Pocztowy":
+                                listaA = model.AData.Where(o => o.PostCode == SearchPhrase);
+                                Data = listaA;
+                                break;
+                            case "Ulica":
+                                listaA = model.AData.Where(o => o.Street == SearchPhrase);
+                                Data = listaA;
+                                break;
+                            case "Nr Budynku":
+                                listaA = model.AData.Where(o => o.BuildingNumber == SearchPhrase);
+                                Data = listaA;
+                                break;
+                            case "Nr Mieszkania":
+                                int flatNR = Int16.Parse(SearchPhrase);
+                                listaA = model.AData.Where(o => o.FlatNumber == flatNR);
+                                Data = listaA;
+                                break;
+                            case "Kraj Tymcz.":
+                                listaA = model.AData.Where(o => o.TempCountry == SearchPhrase);
+                                Data = listaA;
+                                break;
+                            case "Miasto Tymcz.":
+                                listaA = model.AData.Where(o => o.TempCity == SearchPhrase);
+                                Data = listaA;
+                                break;
+                            case "Kod Pocztowy Tymcz.":
+                                listaA = model.AData.Where(o => o.TempPostCode == SearchPhrase);
+                                Data = listaA;
+                                break;
+                            case "Ulica Tymcz.":
+                                listaA = model.AData.Where(o => o.TempStreet == SearchPhrase);
+                                Data = listaA;
+                                break;
+                            case "Nr Budynku Tymcz.":
+                                listaA = model.AData.Where(o => o.TempBuildNumber == SearchPhrase);
+                                Data = listaA;
+                                break;
+                            case "Nr Mieszkania Tymcz":
+                                int flatNRTmp = Int16.Parse(SearchPhrase);
+                                listaA = model.AData.Where(o => o.TempFlatNumber == flatNRTmp);
+                                Data = listaA;
+                                break;
+                        }
+                        break;
+                    case "Zgony":
+                        IEnumerable<Death> listaD = new ObservableCollection<Death>();
+                        switch (SelectedColumn)
+                        {
+                            case "Pesel":
+                                decimal pesel = Decimal.Parse(SearchPhrase);
+                                listaD = model.DData.Where(o => o.Pesel == pesel);
+                                Data = listaD;
+                                break;
+                            case "Imię":
+                                listaD = model.DData.Where(o => o.FirstName == SearchPhrase);
+                                Data = listaD;
+                                break;
+                            case "Drugie Imię":
+                                listaD = model.DData.Where(o => o.MiddleName == SearchPhrase);
+                                Data = listaD;
+                                break;
+                            case "Nazwisko":
+                                listaD = model.DData.Where(o => o.LastName == SearchPhrase);
+                                Data = listaD;
+                                break;
+                            case "Data":
+                                DateTime date = DateTime.Parse(SearchPhrase);
+                                listaD = model.DData.Where(o => o.Date == date);
+                                Data = listaD;
+                                break;
+                            case "Numer Aktu":
+                                int actNR = Int16.Parse(SearchPhrase);
+                                listaD = model.DData.Where(o => o.ActNumber == actNR);
+                                Data = listaD;
+                                break;
+                        }
+                        break;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Wybierz kolumnę lub frazę do wyszukania!", "Błąd!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
