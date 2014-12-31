@@ -10,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace ModifyDialog
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for Modify_Dialog_b.xaml
     /// </summary>
-    public partial class ModifyDialogWindow : Window
+    public partial class Modify_Dialog_b : Window
     {
-        public ModifyDialogWindow( ModifyViewModel modifyVM)
+        public Modify_Dialog_b(ModifyViewModel modifyVM)
         {
             InitializeComponent();
             this.DataContext = modifyVM;

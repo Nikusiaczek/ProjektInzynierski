@@ -120,6 +120,10 @@
       <Project>{046ff2f3-a2b6-49ac-af09-dc33e68f7a32}</Project>
       <Name>DboActivity.Dialog</Name>
     </ProjectReference>
+    <ProjectReference Include="..\HelpProvidance\HelpProvidance.csproj">
+      <Project>{4ae87644-f2d8-4301-8bda-df552b44c095}</Project>
+      <Name>HelpProvidance</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -189,6 +189,10 @@
       <Project>{7b1c198e-3645-488c-8475-9267a7f2915e}</Project>
       <Name>AddMariage</Name>
     </ProjectReference>
+    <ProjectReference Include="..\HelpProvidance\HelpProvidance.csproj">
+      <Project>{4ae87644-f2d8-4301-8bda-df552b44c095}</Project>
+      <Name>HelpProvidance</Name>
+    </ProjectReference>
     <ProjectReference Include="..\InsertDialog\InsertDialog.csproj">
       <Project>{667ae82d-b02a-4730-bf75-dfd60c384164}</Project>
       <Name>InsertDialog</Name>

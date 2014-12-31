@@ -1,0 +1,24 @@
+﻿<Window x:Class="ModifyDialog.ModifyDialog_m"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:help="clr-namespace:HelpProvider;assembly=HelpProvidance"
+        help:Help.Filename="MyHelp.chm"
+        Title="Modyfikuj" Height="450" Width="300" WindowStyle="ToolWindow">
+    <Grid>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="64,20,0,0" TextWrapping="Wrap" Text="{Binding Pesel}" VerticalAlignment="Top" Width="150" IsReadOnly="True"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="64,48,0,0" TextWrapping="Wrap" Text="{Binding FirstName}" VerticalAlignment="Top" Width="150" IsReadOnly="True"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="64,76,0,0" TextWrapping="Wrap" Text="{Binding MiddleName}" VerticalAlignment="Top" Width="150" IsReadOnly="True"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="64,104,0,0" TextWrapping="Wrap" Text="{Binding LastName}" VerticalAlignment="Top" Width="150" IsReadOnly="True"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="64,244,0,0" TextWrapping="Wrap" Text="{Binding Date}" VerticalAlignment="Top" Width="150"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="64,132,0,0" TextWrapping="Wrap" Text="{Binding Pesel1}" VerticalAlignment="Top" Width="150" IsReadOnly="True"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="64,160,0,0" TextWrapping="Wrap" Text="{Binding FirstName1}" VerticalAlignment="Top" Width="150" IsReadOnly="True"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="64,188,0,0" TextWrapping="Wrap" Text="{Binding MiddleName1}" VerticalAlignment="Top" Width="150" IsReadOnly="True"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="64,216,0,0" TextWrapping="Wrap" Text="{Binding LastName1}" VerticalAlignment="Top" Width="150" IsReadOnly="True"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="64,272,0,0" TextWrapping="Wrap" Text="{Binding Annuled}" VerticalAlignment="Top" Width="150" IsReadOnly="True"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="64,300,0,0" TextWrapping="Wrap" Text="{Binding Description}" VerticalAlignment="Top" Width="150" IsReadOnly="True"/>
+        <Button Content="Modyfikuj" HorizontalAlignment="Left" Margin="21,360,0,0" Width="104" IsDefault="True" Click="Button_Click" Height="40" VerticalAlignment="Top"/>
+        <Button Content="Anuluj" Margin="0,360,26,0" IsCancel="True" HorizontalAlignment="Right" Width="104" Height="40" VerticalAlignment="Top"/>
+    </Grid>
+</Window>
+
+

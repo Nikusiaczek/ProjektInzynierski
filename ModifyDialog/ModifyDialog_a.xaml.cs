@@ -10,25 +10,24 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Diagnostics;
 
-namespace ProjInzynierski
+namespace ModifyDialog
 {
     /// <summary>
-    /// Interaction logic for Shell.xaml
+    /// Interaction logic for ModifyDialog_a.xaml
     /// </summary>
-    public partial class Shell : Window
+    public partial class ModifyDialog_a : Window
     {
-        public Shell()
+        public ModifyDialog_a(ModifyViewModel modVM)
         {
             InitializeComponent();
-            this.DataContext = new ShellViewModel();
+            this.DataContext = modVM;
         }
-    //    public void Window_Help_Executed()
-    //    {
-    //        Process.Start("MyHelp.chm");
-    //    }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = true;
+        }
     }
 }

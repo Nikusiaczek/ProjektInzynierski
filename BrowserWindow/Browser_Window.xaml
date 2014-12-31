@@ -1,6 +1,8 @@
 ﻿<Window x:Class="BrowserWindow.BrowserMainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:help="clr-namespace:HelpProvider;assembly=HelpProvidance"
+        help:Help.Filename="MyHelp.chm"
         Title="Przeglądaj" Height="400" Width="730">
     <Grid>
         <Grid.ColumnDefinitions>

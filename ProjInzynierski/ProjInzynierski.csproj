@@ -136,6 +136,10 @@
       <Project>{046ff2f3-a2b6-49ac-af09-dc33e68f7a32}</Project>
       <Name>DboActivity.Dialog</Name>
     </ProjectReference>
+    <ProjectReference Include="..\HelpProvidance\HelpProvidance.csproj">
+      <Project>{4ae87644-f2d8-4301-8bda-df552b44c095}</Project>
+      <Name>HelpProvidance</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LoginService\LoginService.csproj">
       <Project>{dca6bb28-0d88-4771-8dfe-5ac23ff64060}</Project>
       <Name>LoginService</Name>

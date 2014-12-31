@@ -53,7 +53,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Modify_Dialog.xaml">
+    <Page Include="ModifyDialog_a.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ModifyDialog_d.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ModifyDialog_m.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modify_Dialog_p.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -61,13 +73,29 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ModifyDialog_a.xaml.cs">
+      <DependentUpon>ModifyDialog_a.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ModifyDialog_d.xaml.cs">
+      <DependentUpon>ModifyDialog_d.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ModifyDialog_m.xaml.cs">
+      <DependentUpon>ModifyDialog_m.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ModifyViewModel.cs" />
-    <Compile Include="Modify_Dialog.xaml.cs">
-      <DependentUpon>Modify_Dialog.xaml</DependentUpon>
+    <Compile Include="Modify_Dialog_p.xaml.cs">
+      <DependentUpon>Modify_Dialog_p.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Modify_Dialog_b.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Modify_Dialog_b.xaml.cs">
+      <DependentUpon>Modify_Dialog_b.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -93,6 +121,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HelpProvidance\HelpProvidance.csproj">
+      <Project>{4ae87644-f2d8-4301-8bda-df552b44c095}</Project>
+      <Name>HelpProvidance</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

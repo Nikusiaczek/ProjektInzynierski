@@ -1,7 +1,12 @@
 ﻿<Window x:Class="ProjInzynierski.Shell"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:help="clr-namespace:HelpProvider;assembly=HelpProvidance"
+        help:Help.Filename="MyHelp.chm"
         Title="Ewidencja ludności" Height="430" Width="715" Background="#FF97A69A">
+    <!--<Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Help" Executed="Window_Help_Executed"/>
+    </Window.CommandBindings>-->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
