@@ -73,25 +73,25 @@ namespace BrowserWindow
                                 Data = listaP;
                                 break;
                             case "Imię":
-                                listaP = model.PData.Where(o => o.FirstName == SearchPhrase);
+                                listaP = model.PData.Where(o => o.Imie == SearchPhrase);
                                 Data = listaP;
                                 break;
                             case "Drugie Imię":
-                                listaP = model.PData.Where(o => o.MiddleName == SearchPhrase);
+                                listaP = model.PData.Where(o => o.DrugieImie == SearchPhrase);
                                 Data = listaP;
                                 break;
                             case "Nazwisko":
-                                listaP = model.PData.Where(o => o.LastName == SearchPhrase);
+                                listaP = model.PData.Where(o => o.Nazwisko == SearchPhrase);
                                 Data = listaP;
                                 break;
                             case "Data Urodzenia":
                                 DateTime date = DateTime.Parse(SearchPhrase);
-                                listaP = model.PData.Where(o => o.DateOfBirth == date);
+                                listaP = model.PData.Where(o => o.DataUrodzenia == date);
                                 Data = listaP;
                                 break;
                             case "Czy Mężczyzna":
                                 bool ismale = Boolean.Parse(SearchPhrase);
-                                listaP = model.PData.Where(o => o.IsMale == ismale);
+                                listaP = model.PData.Where(o => o.CzyMężczyzna == ismale);
                                 Data = listaP;
                                 break;
                         }
@@ -107,15 +107,15 @@ namespace BrowserWindow
                                 Data = listaM;
                                 break;
                             case "Imię":
-                                listaM = model.MData.Where(o => o.FirstName1 == SearchPhrase);
+                                listaM = model.MData.Where(o => o.Imie1 == SearchPhrase);
                                 Data = listaM;
                                 break;
                             case "Drugie Imię":
-                                listaM = model.MData.Where(o => o.MiddleName1 == SearchPhrase);
+                                listaM = model.MData.Where(o => o.DrugieImie1 == SearchPhrase);
                                 Data = listaM;
                                 break;
                             case "Nazwisko":
-                                listaM = model.MData.Where(o => o.LastName1 == SearchPhrase);
+                                listaM = model.MData.Where(o => o.Nazwisko1 == SearchPhrase);
                                 Data = listaM;
                                 break;
                             case "Pesel2":
@@ -124,29 +124,29 @@ namespace BrowserWindow
                                 Data = listaM;
                                 break;
                             case "Imię2":
-                                listaM = model.MData.Where(o => o.FirstName2 == SearchPhrase);
+                                listaM = model.MData.Where(o => o.Imie2 == SearchPhrase);
                                 Data = listaM;
                                 break;
                             case "Drugie Imię2":
-                                listaM = model.MData.Where(o => o.MiddleName2 == SearchPhrase);
+                                listaM = model.MData.Where(o => o.DrugieImie2 == SearchPhrase);
                                 Data = listaM;
                                 break;
                             case "Nazwisko2":
-                                listaM = model.MData.Where(o => o.LastName2 == SearchPhrase);
+                                listaM = model.MData.Where(o => o.Nazwisko2 == SearchPhrase);
                                 Data = listaM;
                                 break;
                             case "Data":
                                 DateTime date = DateTime.Parse(SearchPhrase);
-                                listaM = model.MData.Where(o => o.Date == date);
+                                listaM = model.MData.Where(o => o.Data == date);
                                 Data = listaM;
                                 break;
                             case "Anulowano":
                                 DateTime anulled = DateTime.Parse(SearchPhrase);
-                                listaM = model.MData.Where(o => o.Date == anulled);
+                                listaM = model.MData.Where(o => o.Data == anulled);
                                 Data = listaM;
                                 break;
                             case "Opis":
-                                listaM = model.MData.Where(o => o.Description == SearchPhrase);
+                                listaM = model.MData.Where(o => o.Powod == SearchPhrase);
                                 Data = listaM;
                                 break;
                         }
@@ -161,20 +161,20 @@ namespace BrowserWindow
                                 Data = listaB;
                                 break;
                             case "Imię":
-                                listaB = model.BData.Where(o => o.FirstName == SearchPhrase);
+                                listaB = model.BData.Where(o => o.Imie == SearchPhrase);
                                 Data = listaB;
                                 break;
                             case "Drugie Imię":
-                                listaB = model.BData.Where(o => o.MiddleName == SearchPhrase);
+                                listaB = model.BData.Where(o => o.DrugieImie == SearchPhrase);
                                 Data = listaB;
                                 break;
                             case "Nazwisko":
-                                listaB = model.BData.Where(o => o.LastName == SearchPhrase);
+                                listaB = model.BData.Where(o => o.Nazwisko == SearchPhrase);
                                 Data = listaB;
                                 break;
                             case "Data":
                                 DateTime date = DateTime.Parse(SearchPhrase);
-                                listaB = model.BData.Where(o => o.Date == date);
+                                listaB = model.BData.Where(o => o.Data == date);
                                 Data = listaB;
                                 break;
                             case "Pesel Matki":
@@ -194,61 +194,61 @@ namespace BrowserWindow
                                 Data = listaA;
                                 break;
                             case "Imię":
-                                listaA = model.AData.Where(o => o.FirstName == SearchPhrase);
+                                listaA = model.AData.Where(o => o.Imie == SearchPhrase);
                                 Data = listaA;
                                 break;
                             case "Nazwisko":
-                                listaA = model.AData.Where(o => o.LastName == SearchPhrase);
+                                listaA = model.AData.Where(o => o.Nazwisko == SearchPhrase);
                                 Data = listaA;
                                 break;
                             case "Kraj":
-                                listaA = model.AData.Where(o => o.Country == SearchPhrase);
+                                listaA = model.AData.Where(o => o.Kraj == SearchPhrase);
                                 Data = listaA;
                                 break;
                             case "Miasto":
-                                listaA = model.AData.Where(o => o.City == SearchPhrase);
+                                listaA = model.AData.Where(o => o.Miasto == SearchPhrase);
                                 Data = listaA;
                                 break;
                             case "Kod Pocztowy":
-                                listaA = model.AData.Where(o => o.PostCode == SearchPhrase);
+                                listaA = model.AData.Where(o => o.KodPocztowy == SearchPhrase);
                                 Data = listaA;
                                 break;
                             case "Ulica":
-                                listaA = model.AData.Where(o => o.Street == SearchPhrase);
+                                listaA = model.AData.Where(o => o.Ulica == SearchPhrase);
                                 Data = listaA;
                                 break;
                             case "Nr Budynku":
-                                listaA = model.AData.Where(o => o.BuildingNumber == SearchPhrase);
+                                listaA = model.AData.Where(o => o.NrBudynku == SearchPhrase);
                                 Data = listaA;
                                 break;
                             case "Nr Mieszkania":
                                 int flatNR = Int16.Parse(SearchPhrase);
-                                listaA = model.AData.Where(o => o.FlatNumber == flatNR);
+                                listaA = model.AData.Where(o => o.NrMieszkania == flatNR);
                                 Data = listaA;
                                 break;
                             case "Kraj Tymcz.":
-                                listaA = model.AData.Where(o => o.TempCountry == SearchPhrase);
+                                listaA = model.AData.Where(o => o.TymczKraj == SearchPhrase);
                                 Data = listaA;
                                 break;
                             case "Miasto Tymcz.":
-                                listaA = model.AData.Where(o => o.TempCity == SearchPhrase);
+                                listaA = model.AData.Where(o => o.TymczMiasto == SearchPhrase);
                                 Data = listaA;
                                 break;
                             case "Kod Pocztowy Tymcz.":
-                                listaA = model.AData.Where(o => o.TempPostCode == SearchPhrase);
+                                listaA = model.AData.Where(o => o.TymczKodPoczt == SearchPhrase);
                                 Data = listaA;
                                 break;
                             case "Ulica Tymcz.":
-                                listaA = model.AData.Where(o => o.TempStreet == SearchPhrase);
+                                listaA = model.AData.Where(o => o.TymczUlica == SearchPhrase);
                                 Data = listaA;
                                 break;
                             case "Nr Budynku Tymcz.":
-                                listaA = model.AData.Where(o => o.TempBuildNumber == SearchPhrase);
+                                listaA = model.AData.Where(o => o.TymczNrBudynku == SearchPhrase);
                                 Data = listaA;
                                 break;
                             case "Nr Mieszkania Tymcz":
                                 int flatNRTmp = Int16.Parse(SearchPhrase);
-                                listaA = model.AData.Where(o => o.TempFlatNumber == flatNRTmp);
+                                listaA = model.AData.Where(o => o.TymczNrMieszkania == flatNRTmp);
                                 Data = listaA;
                                 break;
                         }
@@ -263,25 +263,25 @@ namespace BrowserWindow
                                 Data = listaD;
                                 break;
                             case "Imię":
-                                listaD = model.DData.Where(o => o.FirstName == SearchPhrase);
+                                listaD = model.DData.Where(o => o.Imie == SearchPhrase);
                                 Data = listaD;
                                 break;
                             case "Drugie Imię":
-                                listaD = model.DData.Where(o => o.MiddleName == SearchPhrase);
+                                listaD = model.DData.Where(o => o.DrugieImie == SearchPhrase);
                                 Data = listaD;
                                 break;
                             case "Nazwisko":
-                                listaD = model.DData.Where(o => o.LastName == SearchPhrase);
+                                listaD = model.DData.Where(o => o.Nazwisko == SearchPhrase);
                                 Data = listaD;
                                 break;
                             case "Data":
                                 DateTime date = DateTime.Parse(SearchPhrase);
-                                listaD = model.DData.Where(o => o.Date == date);
+                                listaD = model.DData.Where(o => o.Data == date);
                                 Data = listaD;
                                 break;
                             case "Numer Aktu":
                                 int actNR = Int16.Parse(SearchPhrase);
-                                listaD = model.DData.Where(o => o.ActNumber == actNR);
+                                listaD = model.DData.Where(o => o.NumerAktu == actNR);
                                 Data = listaD;
                                 break;
                         }

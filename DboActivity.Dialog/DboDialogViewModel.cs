@@ -135,14 +135,14 @@ namespace DboActivity.Dialog
                             InsertDialogViewModel insertVM = new InsertDialogViewModel(WindowName);
                             InsertDialogWindow dialog = new InsertDialogWindow(insertVM);
                             bool? res = dialog.ShowDialog();
-                            if (res.HasValue && res.Value)
+                            if (res.HasValue && res.Value && insertVM.FirstName != null && insertVM.LastName != null && insertVM.MothersPesel!=null)
                             {
                                 context.Person.Add(FillPerson(insertVM.Pesel, insertVM.FirstName, insertVM.MiddleName, insertVM.LastName, insertVM.DateOfBirth, insertVM.Sex));
                                 context.Births.Add(FillBirth(1, insertVM.Date, insertVM.Pesel, insertVM.MothersPesel));
                                 context.SaveChanges();
                                 Birth birth = new Birth();
-                                birth.Pesel = insertVM.Pesel; birth.FirstName = insertVM.FirstName; birth.MiddleName = insertVM.MiddleName;
-                                birth.LastName = insertVM.LastName; birth.Date = insertVM.DateOfBirth; birth.MothersPesel = insertVM.MothersPesel;
+                                birth.Pesel = insertVM.Pesel; birth.Imie = insertVM.FirstName; birth.DrugieImie = insertVM.MiddleName;
+                                birth.Nazwisko = insertVM.LastName; birth.Data = insertVM.DateOfBirth; birth.PeselMatki = insertVM.MothersPesel;
                                 model.BData.Add(birth);
                                 NotifyPropertyChanged("Data");
 
@@ -155,7 +155,7 @@ namespace DboActivity.Dialog
                             InsertDialogViewModel insertVM = new InsertDialogViewModel(WindowName);
                             InsertDialogWindow dialog = new InsertDialogWindow(insertVM);
                             bool? res = dialog.ShowDialog();
-                            if (res.HasValue && res.Value)
+                            if (res.HasValue && res.Value && insertVM.FirstName!=null && insertVM.LastName!=null)
                             {
                                 context.Deaths.Add(FillDeath(1, insertVM.Date, insertVM.Pesel));
                                 var personList = context.Person.ToList();
@@ -163,8 +163,8 @@ namespace DboActivity.Dialog
                                 personToUpdate.isDead = true;
                                 context.SaveChanges();
                                 Death death = new Death();
-                                death.FirstName = insertVM.FirstName; death.LastName = insertVM.LastName; death.MiddleName = insertVM.MiddleName;
-                                death.Pesel = insertVM.Pesel; death.Date = insertVM.Date;
+                                death.Imie = insertVM.FirstName; death.Nazwisko = insertVM.LastName; death.DrugieImie = insertVM.MiddleName;
+                                death.Pesel = insertVM.Pesel; death.Data = insertVM.Date;
                                 model.DData.Add(death);
                                 NotifyPropertyChanged("Data");
                             }
@@ -176,7 +176,7 @@ namespace DboActivity.Dialog
                             AddMarriageViewModel addVM = new AddMarriageViewModel();
                             AddMarriageWindow dialog = new AddMarriageWindow(addVM);
                             bool? res = dialog.ShowDialog();
-                            if (res.HasValue && res.Value)
+                            if (res.HasValue && res.Value && addVM.FirstName1 != null && addVM.LastName1 != null && addVM.FirstName2 != null && addVM.LastName2 != null)
                             {
                                 Person person = FillPerson(addVM.Pesel1, addVM.FirstName1, addVM.MiddleName1, addVM.LastName1, addVM.DateOfBirth1, addVM.Sex1),
                                        person1 = FillPerson(addVM.Pesel2, addVM.FirstName2, addVM.MiddleName2, addVM.LastName2, addVM.DateOfBirth2, addVM.Sex2);
@@ -194,9 +194,9 @@ namespace DboActivity.Dialog
                                 context.Marriages.Add(FillMariage(addVM.ActNumber, addVM.Pesel1, addVM.Pesel2, addVM.Date));
                                 context.SaveChanges();
                                 Marriage marriage = new Marriage();
-                                marriage.Pesel1 = addVM.Pesel1; marriage.FirstName1 = addVM.FirstName1; marriage.MiddleName1 = addVM.MiddleName1;
-                                marriage.LastName1 = addVM.LastName1; marriage.Pesel2 = addVM.Pesel2; marriage.FirstName2 = addVM.FirstName2;
-                                marriage.MiddleName2 = addVM.MiddleName2; marriage.LastName2 = addVM.LastName2; marriage.Date = addVM.Date;
+                                marriage.Pesel1 = addVM.Pesel1; marriage.Imie1 = addVM.FirstName1; marriage.DrugieImie1 = addVM.MiddleName1;
+                                marriage.Nazwisko1 = addVM.LastName1; marriage.Pesel2 = addVM.Pesel2; marriage.Imie2 = addVM.FirstName2;
+                                marriage.DrugieImie2 = addVM.MiddleName2; marriage.Nazwisko2 = addVM.LastName2; marriage.Data = addVM.Date;
                                 model.MData.Add(marriage);
                             }
                         }
@@ -207,16 +207,20 @@ namespace DboActivity.Dialog
                             InsertDialogViewModel insertVM = new InsertDialogViewModel(WindowName);
                             InsertDialogWindow dialog = new InsertDialogWindow(insertVM);
                             bool? res = dialog.ShowDialog();
-                            if (res.HasValue && res.Value)
+                            if (res.HasValue && res.Value && insertVM.FirstName!=null && insertVM.LastName!=null)
                             {
                                 context.Person.Add(FillPerson(insertVM.Pesel, insertVM.FirstName, insertVM.MiddleName, insertVM.LastName, insertVM.DateOfBirth, insertVM.Sex));
+                                context.SaveChanges();
+                                PersonDetails persona = new PersonDetails();
+                                persona.Pesel = insertVM.Pesel; persona.Imie = insertVM.FirstName; persona.DrugieImie = insertVM.MiddleName;
+                                persona.Nazwisko = insertVM.LastName; persona.CzyMężczyzna = insertVM.Sex; persona.DataUrodzenia = insertVM.DateOfBirth;
+                                model.PData.Add(persona);
+                                NotifyPropertyChanged("Data");
                             }
-                            context.SaveChanges();
-                            PersonDetails persona = new PersonDetails();
-                            persona.Pesel = insertVM.Pesel; persona.FirstName = insertVM.FirstName; persona.MiddleName = insertVM.MiddleName;
-                            persona.LastName = insertVM.LastName; persona.IsMale = insertVM.Sex; persona.DateOfBirth = insertVM.DateOfBirth;
-                            model.PData.Add(persona);
-                            NotifyPropertyChanged("Data");
+                            else
+                            {
+                                MessageBox.Show("Podaj wszystkie dane!", "Błąd!",MessageBoxButton.OK,MessageBoxImage.Error);
+                            }                          
                         }
                         break;
                 }
@@ -236,14 +240,15 @@ namespace DboActivity.Dialog
                         {
                             Birth birth = (Birth)SelectedObject;
                             ModifyViewModel modVM = new ModifyViewModel();
-                            modVM.Pesel = birth.Pesel; modVM.MothersPesel = birth.MothersPesel; modVM.DateOfBirth = birth.Date;
-                            modVM.FirstName = birth.FirstName; modVM.MiddleName = birth.MiddleName; modVM.LastName = birth.LastName;
+                            modVM.Pesel = birth.Pesel; modVM.MothersPesel = birth.PeselMatki; modVM.DateOfBirth = birth.Data;
+                            modVM.FirstName = birth.Imie; modVM.MiddleName = birth.DrugieImie; modVM.LastName = birth.Nazwisko;
                             Modify_Dialog_b dialog = new Modify_Dialog_b(modVM);
+                            var birthList = context.Births.ToList();
+                            Births birthToMod = birthList.Where(o => o.pesel.Equals(modVM.Pesel)).FirstOrDefault<Births>();
                             bool? res = dialog.ShowDialog();
                             if (res.HasValue && res.Value)
                             {
-                                var birthList = context.Births.ToList();
-                                Births birthToMod = birthList.Where(o => o.pesel.Equals(modVM.Pesel)).FirstOrDefault<Births>();
+                                
                                 birthToMod.mothersPesel = modVM.MothersPesel;
                                 birthToMod.date = modVM.DateOfBirth;
                                 context.SaveChanges();
@@ -259,14 +264,15 @@ namespace DboActivity.Dialog
                         {
                             Death death = (Death)SelectedObject;
                             ModifyViewModel modVM = new ModifyViewModel();
-                            modVM.Pesel = death.Pesel; modVM.Code = death.ActNumber; modVM.DateOfBirth = death.Date;
-                            modVM.FirstName = death.FirstName; modVM.MiddleName = death.MiddleName; modVM.LastName = death.LastName;
+                            modVM.Pesel = death.Pesel; modVM.Code = death.NumerAktu; modVM.DateOfBirth = death.Data;
+                            modVM.FirstName = death.Imie; modVM.MiddleName = death.DrugieImie; modVM.LastName = death.Nazwisko;
                             ModifyDialog_d dialog = new ModifyDialog_d(modVM);
+                            var deathList = context.Deaths.ToList();
+                            Deaths deathToMod = deathList.Where(o => o.pesel.Equals(modVM.Pesel)).FirstOrDefault<Deaths>();
                             bool? res = dialog.ShowDialog();
                             if (res.HasValue && res.Value)
                             {
-                                var deathList = context.Deaths.ToList();
-                                Deaths deathToMod = deathList.Where(o => o.pesel.Equals(modVM.Pesel)).FirstOrDefault<Deaths>();
+                                
                                 deathToMod.ID = modVM.Code;
                                 deathToMod.date = modVM.DateOfBirth;
                                 context.SaveChanges();
@@ -282,13 +288,14 @@ namespace DboActivity.Dialog
                         {
                             Accomodate acc = (Accomodate)SelectedObject;
                             ModifyViewModel modVM = new ModifyViewModel();
-                            modVM.Pesel = acc.Pesel; modVM.FirstName = acc.FirstName; modVM.LastName = acc.LastName;
+                            modVM.Pesel = acc.Pesel; modVM.FirstName = acc.Imie; modVM.LastName = acc.Nazwisko;
                             ModifyDialog_a dialog = new ModifyDialog_a(modVM);
-                            bool? res = dialog.ShowDialog();
+                            var accList = context.Person.ToList();
+                            Person accToMod = accList.Where(o => o.pesel.Equals(modVM.Pesel)).FirstOrDefault<Person>();
+                            bool? res = dialog.ShowDialog();                           
                             if (res.HasValue && res.Value)
                             {
-                                var accList = context.Person.ToList();
-                                Person accToMod = accList.Where(o => o.pesel.Equals(modVM.Pesel)).FirstOrDefault<Person>();
+                                
                                 accToMod.permanentAddress_ID = modVM.IDPerm;
                                 accToMod.temporaryAddress_ID = modVM.IDTemp;
                                 context.SaveChanges();                                
@@ -304,14 +311,14 @@ namespace DboActivity.Dialog
                         {
                             PersonDetails personD = (PersonDetails)SelectedObject;
                             ModifyViewModel modVM = new ModifyViewModel();
-                            modVM.Pesel = personD.Pesel; modVM.DateOfBirth = personD.DateOfBirth; personD.IsMale = modVM.Sex;
-                            modVM.FirstName = personD.FirstName; modVM.MiddleName = personD.MiddleName; modVM.LastName = personD.LastName;
+                            modVM.Pesel = personD.Pesel; modVM.DateOfBirth = personD.DataUrodzenia; personD.CzyMężczyzna = modVM.Sex;
+                            modVM.FirstName = personD.Imie; modVM.MiddleName = personD.DrugieImie; modVM.LastName = personD.Nazwisko;
                             ModifyDialogWindow_p dialog = new ModifyDialogWindow_p(modVM);
+                            var personList = context.Person.ToList();
+                            Person personToMod = personList.Where(o => o.pesel.Equals(modVM.Pesel)).FirstOrDefault<Person>();
                             bool? res = dialog.ShowDialog();
                             if (res.HasValue && res.Value)
-                            {
-                                var personList = context.Person.ToList();
-                                Person personToMod = personList.Where(o => o.pesel.Equals(modVM.Pesel)).FirstOrDefault<Person>();
+                            {                                
                                 personToMod.firstName = modVM.FirstName; personToMod.middleName = modVM.MiddleName;
                                 personToMod.lastName = modVM.LastName; personToMod.sex = modVM.Sex;
                                 context.SaveChanges();
@@ -327,16 +334,17 @@ namespace DboActivity.Dialog
                         {
                             Marriage marriage = (Marriage)SelectedObject;
                             ModifyViewModel modVM = new ModifyViewModel();
-                            modVM.Pesel = marriage.Pesel1; modVM.Date = marriage.Date; modVM.Pesel1 = marriage.Pesel2; modVM.Anulled = marriage.Anulled;
-                            modVM.FirstName = marriage.FirstName1; modVM.MiddleName = marriage.MiddleName1; modVM.LastName = marriage.LastName1;
-                            modVM.FirstName1 = marriage.FirstName2; modVM.MiddleName1 = marriage.MiddleName2; modVM.LastName1 = marriage.LastName2;
-                            modVM.Description = marriage.Description;
+                            modVM.Pesel = marriage.Pesel1; modVM.Date = marriage.Data; modVM.Pesel1 = marriage.Pesel2; modVM.Anulled = marriage.Anulowano;
+                            modVM.FirstName = marriage.Imie1; modVM.MiddleName = marriage.DrugieImie1; modVM.LastName = marriage.Nazwisko1;
+                            modVM.FirstName1 = marriage.Imie2; modVM.MiddleName1 = marriage.DrugieImie2; modVM.LastName1 = marriage.Nazwisko2;
+                            modVM.Description = marriage.Powod;
                             ModifyDialog_m dialog = new ModifyDialog_m(modVM);
+                            var marriageList = context.Marriages.ToList();
+                            Marriages marriageToMod = marriageList.Where(o => o.pesel.Equals(modVM.Pesel)).FirstOrDefault<Marriages>();
                             bool? res = dialog.ShowDialog();
                             if (res.HasValue && res.Value)
                             {
-                                var marriageList = context.Marriages.ToList();
-                                Marriages marriageToMod = marriageList.Where(o => o.pesel.Equals(modVM.Pesel)).FirstOrDefault<Marriages>();
+                                
                                 marriageToMod.date = modVM.Date; marriageToMod.description = modVM.Description; marriageToMod.anulled = modVM.Anulled;
                                 context.SaveChanges();
                             }
@@ -414,7 +422,7 @@ namespace DboActivity.Dialog
         private void Browse(object sender)
         {
             ComboBox combo = sender as ComboBox;
-            if (combo != null && SearchPhrase != null)
+            if (combo != null && SearchPhrase != null && SearchPhrase != string.Empty)
             {
                 SelectedColumn = combo.SelectedValue.ToString();
                 switch (WindowName)
@@ -430,29 +438,29 @@ namespace DboActivity.Dialog
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Imię":
-                                listaP = model.PData.Where(o => o.FirstName == SearchPhrase);
+                                listaP = model.PData.Where(o => o.Imie == SearchPhrase);
                                 Data = listaP;
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Drugie Imię":
-                                listaP = model.PData.Where(o => o.MiddleName == SearchPhrase);
+                                listaP = model.PData.Where(o => o.DrugieImie == SearchPhrase);
                                 Data = listaP;
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Nazwisko":
-                                listaP = model.PData.Where(o => o.LastName == SearchPhrase);
+                                listaP = model.PData.Where(o => o.Nazwisko == SearchPhrase);
                                 Data = listaP;
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Data Urodzenia":
                                 DateTime date = DateTime.Parse(SearchPhrase);
-                                listaP = model.PData.Where(o => o.DateOfBirth == date);
+                                listaP = model.PData.Where(o => o.DataUrodzenia == date);
                                 Data = listaP;
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Czy Mężczyzna":
                                 bool ismale = Boolean.Parse(SearchPhrase);
-                                listaP = model.PData.Where(o => o.IsMale == ismale);
+                                listaP = model.PData.Where(o => o.CzyMężczyzna == ismale);
                                 Data = listaP;
                                 NotifyPropertyChanged("Data");
                                 break;
@@ -469,23 +477,23 @@ namespace DboActivity.Dialog
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Imię":
-                                listaB = model.BData.Where(o => o.FirstName == SearchPhrase);
+                                listaB = model.BData.Where(o => o.Imie == SearchPhrase);
                                 Data = listaB;
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Drugie Imię":
-                                listaB = model.BData.Where(o => o.MiddleName == SearchPhrase);
+                                listaB = model.BData.Where(o => o.DrugieImie == SearchPhrase);
                                 Data = listaB;
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Nazwisko":
-                                listaB = model.BData.Where(o => o.LastName == SearchPhrase);
+                                listaB = model.BData.Where(o => o.Nazwisko == SearchPhrase);
                                 Data = listaB;
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Data":
                                 DateTime date = DateTime.Parse(SearchPhrase);
-                                listaB = model.BData.Where(o => o.Date == date);
+                                listaB = model.BData.Where(o => o.Data == date);
                                 Data = listaB;
                                 NotifyPropertyChanged("Data");
                                 break;
@@ -508,17 +516,17 @@ namespace DboActivity.Dialog
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Imię":
-                                listaM = model.MData.Where(o => o.FirstName1 == SearchPhrase);
+                                listaM = model.MData.Where(o => o.Imie1 == SearchPhrase);
                                 Data = listaM;
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Drugie Imię":
-                                listaM = model.MData.Where(o => o.MiddleName1 == SearchPhrase);
+                                listaM = model.MData.Where(o => o.DrugieImie1 == SearchPhrase);
                                 Data = listaM;
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Nazwisko":
-                                listaM = model.MData.Where(o => o.LastName1 == SearchPhrase);
+                                listaM = model.MData.Where(o => o.Nazwisko1 == SearchPhrase);
                                 Data = listaM;
                                 NotifyPropertyChanged("Data");
                                 break;
@@ -529,34 +537,34 @@ namespace DboActivity.Dialog
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Imię2":
-                                listaM = model.MData.Where(o => o.FirstName2 == SearchPhrase);
+                                listaM = model.MData.Where(o => o.Imie2 == SearchPhrase);
                                 Data = listaM;
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Drugie Imię2":
-                                listaM = model.MData.Where(o => o.MiddleName2 == SearchPhrase);
+                                listaM = model.MData.Where(o => o.DrugieImie2 == SearchPhrase);
                                 Data = listaM;
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Nazwisko2":
-                                listaM = model.MData.Where(o => o.LastName2 == SearchPhrase);
+                                listaM = model.MData.Where(o => o.Nazwisko2 == SearchPhrase);
                                 Data = listaM;
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Data":
                                 DateTime date = DateTime.Parse(SearchPhrase);
-                                listaM = model.MData.Where(o => o.Date == date);
+                                listaM = model.MData.Where(o => o.Data == date);
                                 Data = listaM;
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Anulowano":
                                 DateTime anulled = DateTime.Parse(SearchPhrase);
-                                listaM = model.MData.Where(o => o.Date == anulled);
+                                listaM = model.MData.Where(o => o.Data == anulled);
                                 Data = listaM;
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Opis":
-                                listaM = model.MData.Where(o => o.Description == SearchPhrase);
+                                listaM = model.MData.Where(o => o.Powod == SearchPhrase);
                                 Data = listaM;
                                 NotifyPropertyChanged("Data");
                                 break;
@@ -573,74 +581,74 @@ namespace DboActivity.Dialog
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Imię":
-                                listaA = model.AData.Where(o => o.FirstName == SearchPhrase);
+                                listaA = model.AData.Where(o => o.Imie == SearchPhrase);
                                 Data = listaA;
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Nazwisko":
-                                listaA = model.AData.Where(o => o.LastName == SearchPhrase);
+                                listaA = model.AData.Where(o => o.Nazwisko == SearchPhrase);
                                 Data = listaA;
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Kraj":
-                                listaA = model.AData.Where(o => o.Country == SearchPhrase);
+                                listaA = model.AData.Where(o => o.Kraj == SearchPhrase);
                                 Data = listaA;
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Miasto":
-                                listaA = model.AData.Where(o => o.City == SearchPhrase);
+                                listaA = model.AData.Where(o => o.Miasto == SearchPhrase);
                                 Data = listaA;
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Kod Pocztowy":
-                                listaA = model.AData.Where(o => o.PostCode == SearchPhrase);
+                                listaA = model.AData.Where(o => o.KodPocztowy == SearchPhrase);
                                 Data = listaA;
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Ulica":
-                                listaA = model.AData.Where(o => o.Street == SearchPhrase);
+                                listaA = model.AData.Where(o => o.Ulica == SearchPhrase);
                                 Data = listaA;
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Nr Budynku":
-                                listaA = model.AData.Where(o => o.BuildingNumber == SearchPhrase);
+                                listaA = model.AData.Where(o => o.NrBudynku == SearchPhrase);
                                 Data = listaA;
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Nr Mieszkania":
                                 int flatNR = Int16.Parse(SearchPhrase);
-                                listaA = model.AData.Where(o => o.FlatNumber == flatNR);
+                                listaA = model.AData.Where(o => o.NrMieszkania == flatNR);
                                 Data = listaA;
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Kraj Tymcz.":
-                                listaA = model.AData.Where(o => o.TempCountry == SearchPhrase);
+                                listaA = model.AData.Where(o => o.TymczKraj == SearchPhrase);
                                 Data = listaA;
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Miasto Tymcz.":
-                                listaA = model.AData.Where(o => o.TempCity == SearchPhrase);
+                                listaA = model.AData.Where(o => o.TymczMiasto == SearchPhrase);
                                 Data = listaA;
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Kod Pocztowy Tymcz.":
-                                listaA = model.AData.Where(o => o.TempPostCode == SearchPhrase);
+                                listaA = model.AData.Where(o => o.TymczKodPoczt == SearchPhrase);
                                 Data = listaA;
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Ulica Tymcz.":
-                                listaA = model.AData.Where(o => o.TempStreet == SearchPhrase);
+                                listaA = model.AData.Where(o => o.TymczUlica == SearchPhrase);
                                 Data = listaA;
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Nr Budynku Tymcz.":
-                                listaA = model.AData.Where(o => o.TempBuildNumber == SearchPhrase);
+                                listaA = model.AData.Where(o => o.TymczNrBudynku == SearchPhrase);
                                 Data = listaA;
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Nr Mieszkania Tymcz":
                                 int flatNRTmp = Int16.Parse(SearchPhrase);
-                                listaA = model.AData.Where(o => o.TempFlatNumber == flatNRTmp);
+                                listaA = model.AData.Where(o => o.TymczNrMieszkania == flatNRTmp);
                                 Data = listaA;
                                 NotifyPropertyChanged("Data");
                                 break;
@@ -657,29 +665,29 @@ namespace DboActivity.Dialog
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Imię":
-                                listaD = model.DData.Where(o => o.FirstName == SearchPhrase);
+                                listaD = model.DData.Where(o => o.Imie == SearchPhrase);
                                 Data = listaD;
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Drugie Imię":
-                                listaD = model.DData.Where(o => o.MiddleName == SearchPhrase);
+                                listaD = model.DData.Where(o => o.DrugieImie == SearchPhrase);
                                 Data = listaD;
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Nazwisko":
-                                listaD = model.DData.Where(o => o.LastName == SearchPhrase);
+                                listaD = model.DData.Where(o => o.Nazwisko == SearchPhrase);
                                 Data = listaD;
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Data":
                                 DateTime date = DateTime.Parse(SearchPhrase);
-                                listaD = model.DData.Where(o => o.Date == date);
+                                listaD = model.DData.Where(o => o.Data == date);
                                 Data = listaD;
                                 NotifyPropertyChanged("Data");
                                 break;
                             case "Numer Aktu":
                                 int actNR = Int16.Parse(SearchPhrase);
-                                listaD = model.DData.Where(o => o.ActNumber == actNR);
+                                listaD = model.DData.Where(o => o.NumerAktu == actNR);
                                 Data = listaD;
                                 NotifyPropertyChanged("Data");
                                 break;

@@ -89,11 +89,11 @@ namespace DboActivity.Dialog
                        select new Birth
                        {
                            Pesel = p.pesel,
-                           FirstName = p.firstName,
-                           MiddleName = p.middleName,
-                           LastName = p.lastName,
-                           Date = b.date,
-                           MothersPesel = b.mothersPesel
+                           Imie = p.firstName,
+                           DrugieImie = p.middleName,
+                           Nazwisko = p.lastName,
+                           Data = b.date,
+                           PeselMatki = b.mothersPesel
                        };
             BData = new ObservableCollection<Birth>(data);
         }
@@ -106,11 +106,11 @@ namespace DboActivity.Dialog
                        select new Death
                        {
                            Pesel = p.pesel,
-                           FirstName = p.firstName,
-                           MiddleName = p.middleName,
-                           LastName = p.lastName,
-                           Date = d.date,
-                           ActNumber = d.ID
+                           Imie = p.firstName,
+                           DrugieImie = p.middleName,
+                           Nazwisko = p.lastName,
+                           Data = d.date,
+                           NumerAktu = d.ID
                        };
             DData = new ObservableCollection<Death>(data);
         }
@@ -124,16 +124,16 @@ namespace DboActivity.Dialog
                        select new Marriage
                        {
                            Pesel1 = m.pesel,
-                           FirstName1 = p.firstName,
-                           MiddleName1 = p.middleName,
-                           LastName1 = p.lastName,
+                           Imie1 = p.firstName,
+                           DrugieImie1 = p.middleName,
+                           Nazwisko1 = p.lastName,
                            Pesel2 = m.pesel2,
-                           FirstName2 = p1.firstName,
-                           MiddleName2 = p1.middleName,
-                           LastName2 = p1.lastName,
-                           Date = m.date,
-                           Anulled = m.anulled,
-                           Description = m.description
+                           Imie2 = p1.firstName,
+                           DrugieImie2 = p1.middleName,
+                           Nazwisko2 = p1.lastName,
+                           Data = m.date,
+                           Anulowano = m.anulled,
+                           Powod = m.description
                        };
             MData = new ObservableCollection<Marriage>(data);
         }
@@ -146,11 +146,11 @@ namespace DboActivity.Dialog
                        select new PersonDetails
                        {
                            Pesel = p.pesel,
-                           FirstName = p.firstName,
-                           MiddleName = p.middleName,
-                           LastName = p.lastName,
-                           DateOfBirth = p.dateOfBirth,
-                           IsMale = p.sex
+                           Imie = p.firstName,
+                           DrugieImie = p.middleName,
+                           Nazwisko = p.lastName,
+                           DataUrodzenia = p.dateOfBirth,
+                           CzyMężczyzna = p.sex
                        };
             PData = new ObservableCollection<PersonDetails>(data);
         }
@@ -164,20 +164,20 @@ namespace DboActivity.Dialog
                        select new Accomodate
                        {
                            Pesel = p.pesel,
-                           FirstName = p.firstName,
-                           LastName = p.lastName,
-                           Country = a.country,
-                           City = a.city,
-                           PostCode = a.postCode,
-                           Street = a.street,
-                           BuildingNumber = a.buildingNumber,
-                           FlatNumber = a.flatNumber,
-                           TempCountry = a1.country,
-                           TempCity = a1.city,
-                           TempPostCode = a1.postCode,
-                           TempStreet = a1.street,
-                           TempBuildNumber = a1.buildingNumber,
-                           TempFlatNumber = a1.flatNumber
+                           Imie = p.firstName,
+                           Nazwisko = p.lastName,
+                           Kraj = a.country,
+                           Miasto = a.city,
+                           KodPocztowy = a.postCode,
+                           Ulica = a.street,
+                           NrBudynku = a.buildingNumber,
+                           NrMieszkania = a.flatNumber,
+                           TymczKraj = a1.country,
+                           TymczMiasto = a1.city,
+                           TymczKodPoczt = a1.postCode,
+                           TymczUlica = a1.street,
+                           TymczNrBudynku = a1.buildingNumber,
+                           TymczNrMieszkania = a1.flatNumber
                        };
             AData = new ObservableCollection<Accomodate>(data);
         }
@@ -190,19 +190,19 @@ public class Birth
     public decimal Pesel { get; set; }
 
     [Display(Name = "Imię")]
-    public string FirstName { get; set; }
+    public string Imie { get; set; }
 
     [Display(Name = "DrugieImię")]
-    public string MiddleName { get; set; }
+    public string DrugieImie { get; set; }
 
     [Display(Name = "Nazwisko")]
-    public string LastName { get; set; }
+    public string Nazwisko { get; set; }
 
     [Display(Name = "DataUrodzenia")]
-    public DateTime Date { get; set; }
+    public DateTime Data { get; set; }
 
     [Display(Name = "Pesel Matki")]
-    public decimal MothersPesel { get; set; }
+    public decimal PeselMatki { get; set; }
 }
 
 public class Marriage
@@ -211,34 +211,34 @@ public class Marriage
     public decimal Pesel1 { get; set; }
 
     [Display(Name = "Imię")]
-    public string FirstName1 { get; set; }
+    public string Imie1 { get; set; }
 
     [Display(Name = "Drugie Imię")]
-    public string MiddleName1 { get; set; }
+    public string DrugieImie1 { get; set; }
 
     [Display(Name = "Nazwisko")]
-    public string LastName1 { get; set; }
+    public string Nazwisko1 { get; set; }
 
     [Display(Name = "Pesel Małżonka")]
     public decimal Pesel2 { get; set; }
 
     [Display(Name = "Imię Małżonka")]
-    public string FirstName2 { get; set; }
+    public string Imie2 { get; set; }
 
     [Display(Name = "Drugie Imię Małż.")]
-    public string MiddleName2 { get; set; }
+    public string DrugieImie2 { get; set; }
 
     [Display(Name = "Nazwisko Małżonka")]
-    public string LastName2 { get; set; }
+    public string Nazwisko2 { get; set; }
 
     [Display(Name = "Data zawarcia")]
-    public DateTime Date { get; set; }
+    public DateTime Data { get; set; }
 
     [Display(Name = "Anulowano")]
-    public DateTime? Anulled { get; set; }
+    public DateTime? Anulowano { get; set; }
 
     [Display(Name = "Powód")]
-    public string Description { get; set; }
+    public string Powod { get; set; }
 }
 
 public class Death
@@ -246,19 +246,19 @@ public class Death
     public decimal Pesel { get; set; }
 
     [Display(Name = "Imię")]
-    public string FirstName { get; set; }
+    public string Imie { get; set; }
 
     [Display(Name = "Drugie Imię")]
-    public string MiddleName { get; set; }
+    public string DrugieImie { get; set; }
 
     [Display(Name = "Nazwisko")]
-    public string LastName { get; set; }
+    public string Nazwisko { get; set; }
 
     [Display(Name = "Data Zgonu")]
-    public DateTime Date { get; set; }
+    public DateTime Data { get; set; }
 
     [Display(Name = "Numer Aktu")]
-    public int ActNumber { get; set; }
+    public int NumerAktu { get; set; }
 }
 
 public class PersonDetails
@@ -266,19 +266,19 @@ public class PersonDetails
     public decimal Pesel { get; set; }
 
     [Display(Name = "Imię")]
-    public string FirstName { get; set; }
+    public string Imie { get; set; }
 
     [Display(Name = "Drugie Imię")]
-    public string MiddleName { get; set; }
+    public string DrugieImie { get; set; }
 
     [Display(Name = "Nazwisko")]
-    public string LastName { get; set; }
+    public string Nazwisko { get; set; }
 
     [Display(Name = "Data Urodzenia")]
-    public DateTime DateOfBirth { get; set; }
+    public DateTime DataUrodzenia { get; set; }
 
     [Display(Name = "CzyMężczyzna")]
-    public bool IsMale { get; set; }
+    public bool CzyMężczyzna { get; set; }
 }
 
 public class Accomodate
@@ -286,44 +286,44 @@ public class Accomodate
     public decimal Pesel { get; set; }
 
     [Display(Name = "Imię")]
-    public string FirstName { get; set; }
+    public string Imie { get; set; }
 
     [Display(Name = "Nazwisko")]
-    public string LastName { get; set; }
+    public string Nazwisko { get; set; }
 
     [Display(Name = "Kraj")]
-    public string Country { get; set; }
+    public string Kraj { get; set; }
 
     [Display(Name = "Miasto")]
-    public string City { get; set; }
+    public string Miasto { get; set; }
 
     [Display(Name = "Kod Pocztowy")]
-    public string PostCode { get; set; }
+    public string KodPocztowy { get; set; }
 
     [Display(Name = "Ulica")]
-    public string Street { get; set; }
+    public string Ulica { get; set; }
 
     [Display(Name = "Numer Budynku")]
-    public string BuildingNumber { get; set; }
+    public string NrBudynku { get; set; }
 
     [Display(Name = "Numer Mieszkania")]
-    public int FlatNumber { get; set; }
+    public int NrMieszkania { get; set; }
 
     [Display(Name = "Tymcz. Kraj")]
-    public string TempCountry { get; set; }
+    public string TymczKraj { get; set; }
 
     [Display(Name = "Tymcz. Miasto")]
-    public string TempCity { get; set; }
+    public string TymczMiasto { get; set; }
 
     [Display(Name = "Tymcz. Kod Poczt.")]
-    public string TempPostCode { get; set; }
+    public string TymczKodPoczt { get; set; }
 
     [Display(Name = "Tymcz. Ulica")]
-    public string TempStreet { get; set; }
+    public string TymczUlica { get; set; }
 
     [Display(Name = "Tymcz. Nr Budynku")]
-    public string TempBuildNumber { get; set; }
+    public string TymczNrBudynku { get; set; }
 
     [Display(Name = "Tymcz. Nr Mieszkania")]
-    public int TempFlatNumber { get; set; }
+    public int TymczNrMieszkania { get; set; }
 }

@@ -26,16 +26,5 @@ namespace ProjInzynierski
             App.Current.MainWindow.Show();
         }
 
-        protected override IModuleCatalog CreateModuleCatalog()
-        {
-            ModuleCatalog catalog = new ModuleCatalog();
-
-            //catalog.AddModule(typeof(Births));
-            //catalog.AddModule(typeof(Accomodation));
-            //catalog.AddModule(typeof(Deaths));
-            //catalog.AddModule(typeof(Marriages));
-
-            return catalog;
-        }
     }
 }
