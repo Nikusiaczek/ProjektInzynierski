@@ -124,238 +124,269 @@ namespace DboActivity.Dialog
         private void AddToDB()
         {
 
-            using (SqlConnection db = new SqlConnection(connectionString))
+            try
             {
-                db.Open();
-                switch (WindowName)
+                using (SqlConnection db = new SqlConnection(connectionString))
                 {
-                    case "Narodziny":
-                        {
-                            var context = new Entities();
-                            InsertDialogViewModel insertVM = new InsertDialogViewModel(WindowName);
-                            InsertDialogWindow dialog = new InsertDialogWindow(insertVM);
-                            bool? res = dialog.ShowDialog();
-                            if (res.HasValue && res.Value && insertVM.FirstName != null && insertVM.LastName != null && insertVM.MothersPesel!=null)
+                    db.Open();
+                    switch (WindowName)
+                    {
+                        case "Narodziny":
                             {
-                                context.Person.Add(FillPerson(insertVM.Pesel, insertVM.FirstName, insertVM.MiddleName, insertVM.LastName, insertVM.DateOfBirth, insertVM.Sex));
-                                context.Births.Add(FillBirth(1, insertVM.Date, insertVM.Pesel, insertVM.MothersPesel));
-                                context.SaveChanges();
-                                Birth birth = new Birth();
-                                birth.Pesel = insertVM.Pesel; birth.Imie = insertVM.FirstName; birth.DrugieImie = insertVM.MiddleName;
-                                birth.Nazwisko = insertVM.LastName; birth.Data = insertVM.DateOfBirth; birth.PeselMatki = insertVM.MothersPesel;
-                                model.BData.Add(birth);
-                                NotifyPropertyChanged("Data");
-
-                            }
-                        }
-                        break;
-                    case "Zgony":
-                        {
-                            var context = new Entities();
-                            InsertDialogViewModel insertVM = new InsertDialogViewModel(WindowName);
-                            InsertDialogWindow dialog = new InsertDialogWindow(insertVM);
-                            bool? res = dialog.ShowDialog();
-                            if (res.HasValue && res.Value && insertVM.FirstName!=null && insertVM.LastName!=null)
-                            {
-                                context.Deaths.Add(FillDeath(1, insertVM.Date, insertVM.Pesel));
-                                var personList = context.Person.ToList();
-                                Person personToUpdate = personList.Where(p => p.pesel.Equals(insertVM.Pesel)).FirstOrDefault<Person>();
-                                personToUpdate.isDead = true;
-                                context.SaveChanges();
-                                Death death = new Death();
-                                death.Imie = insertVM.FirstName; death.Nazwisko = insertVM.LastName; death.DrugieImie = insertVM.MiddleName;
-                                death.Pesel = insertVM.Pesel; death.Data = insertVM.Date;
-                                model.DData.Add(death);
-                                NotifyPropertyChanged("Data");
-                            }
-                        }
-                        break;
-                    case "Małżeństwa":
-                        {
-                            var context = new Entities();
-                            AddMarriageViewModel addVM = new AddMarriageViewModel();
-                            AddMarriageWindow dialog = new AddMarriageWindow(addVM);
-                            bool? res = dialog.ShowDialog();
-                            if (res.HasValue && res.Value && addVM.FirstName1 != null && addVM.LastName1 != null && addVM.FirstName2 != null && addVM.LastName2 != null)
-                            {
-                                Person person = FillPerson(addVM.Pesel1, addVM.FirstName1, addVM.MiddleName1, addVM.LastName1, addVM.DateOfBirth1, addVM.Sex1),
-                                       person1 = FillPerson(addVM.Pesel2, addVM.FirstName2, addVM.MiddleName2, addVM.LastName2, addVM.DateOfBirth2, addVM.Sex2);
-                                var personList = context.Person.ToList();
-                                Person personToFind = personList.Where(p => p.pesel.Equals(person.pesel)).FirstOrDefault<Person>();
-                                Person personToFind1 = personList.Where(p => p.pesel.Equals(person1.pesel)).FirstOrDefault<Person>();
-                                if (personToFind == null)
+                                var context = new Entities();
+                                InsertDialogViewModel insertVM = new InsertDialogViewModel(WindowName);
+                                InsertDialogWindow dialog = new InsertDialogWindow(insertVM);
+                                bool? res = dialog.ShowDialog();
+                                if (res.HasValue && res.Value && insertVM.FirstName != null && insertVM.LastName != null)
                                 {
-                                    context.Person.Add(person);
+                                    context.Person.Add(FillPerson(insertVM.Pesel, insertVM.FirstName, insertVM.MiddleName, insertVM.LastName, insertVM.DateOfBirth, insertVM.Sex));
+                                    context.Births.Add(FillBirth(1, insertVM.Date, insertVM.Pesel, insertVM.MothersPesel));
+                                    context.SaveChanges();
+                                    Birth birth = new Birth();
+                                    birth.Pesel = insertVM.Pesel; birth.Imie = insertVM.FirstName; birth.DrugieImie = insertVM.MiddleName;
+                                    birth.Nazwisko = insertVM.LastName; birth.Data = insertVM.DateOfBirth; birth.PeselMatki = insertVM.MothersPesel;
+                                    model.BData.Add(birth);
+                                    NotifyPropertyChanged("Data");
                                 }
-                                if (personToFind1 == null)
+                            }
+                            break;
+                        case "Zgony":
+                            {
+                                var context = new Entities();
+                                InsertDialogViewModel insertVM = new InsertDialogViewModel(WindowName);
+                                InsertDialogWindow dialog = new InsertDialogWindow(insertVM);
+                                bool? res = dialog.ShowDialog();
+                                if (res.HasValue && res.Value && insertVM.FirstName != null && insertVM.LastName != null)
                                 {
-                                    context.Person.Add(person1);
+                                    context.Deaths.Add(FillDeath(1, insertVM.Date, insertVM.Pesel));
+                                    var personList = context.Person.ToList();
+                                    Person personToUpdate = personList.Where(p => p.pesel.Equals(insertVM.Pesel)).FirstOrDefault<Person>();
+                                    personToUpdate.isDead = true;
+                                    context.SaveChanges();
+                                    Death death = new Death();
+                                    death.Imie = insertVM.FirstName; death.Nazwisko = insertVM.LastName; death.DrugieImie = insertVM.MiddleName;
+                                    death.Pesel = insertVM.Pesel; death.Data = insertVM.Date;
+                                    model.DData.Add(death);
+                                    NotifyPropertyChanged("Data");
                                 }
-                                context.Marriages.Add(FillMariage(addVM.ActNumber, addVM.Pesel1, addVM.Pesel2, addVM.Date));
-                                context.SaveChanges();
-                                Marriage marriage = new Marriage();
-                                marriage.Pesel1 = addVM.Pesel1; marriage.Imie1 = addVM.FirstName1; marriage.DrugieImie1 = addVM.MiddleName1;
-                                marriage.Nazwisko1 = addVM.LastName1; marriage.Pesel2 = addVM.Pesel2; marriage.Imie2 = addVM.FirstName2;
-                                marriage.DrugieImie2 = addVM.MiddleName2; marriage.Nazwisko2 = addVM.LastName2; marriage.Data = addVM.Date;
-                                model.MData.Add(marriage);
                             }
-                        }
-                        break;
-                    case "Dane Osobowe":
-                        {
-                            var context = new Entities();
-                            InsertDialogViewModel insertVM = new InsertDialogViewModel(WindowName);
-                            InsertDialogWindow dialog = new InsertDialogWindow(insertVM);
-                            bool? res = dialog.ShowDialog();
-                            if (res.HasValue && res.Value && insertVM.FirstName!=null && insertVM.LastName!=null)
+                            break;
+                        case "Małżeństwa":
                             {
-                                context.Person.Add(FillPerson(insertVM.Pesel, insertVM.FirstName, insertVM.MiddleName, insertVM.LastName, insertVM.DateOfBirth, insertVM.Sex));
-                                context.SaveChanges();
-                                PersonDetails persona = new PersonDetails();
-                                persona.Pesel = insertVM.Pesel; persona.Imie = insertVM.FirstName; persona.DrugieImie = insertVM.MiddleName;
-                                persona.Nazwisko = insertVM.LastName; persona.CzyMężczyzna = insertVM.Sex; persona.DataUrodzenia = insertVM.DateOfBirth;
-                                model.PData.Add(persona);
-                                NotifyPropertyChanged("Data");
+                                var context = new Entities();
+                                AddMarriageViewModel addVM = new AddMarriageViewModel();
+                                AddMarriageWindow dialog = new AddMarriageWindow(addVM);
+                                bool? res = dialog.ShowDialog();
+                                if (res.HasValue && res.Value && addVM.FirstName1 != null && addVM.LastName1 != null && addVM.FirstName2 != null && addVM.LastName2 != null)
+                                {
+                                    Person person = FillPerson(addVM.Pesel1, addVM.FirstName1, addVM.MiddleName1, addVM.LastName1, addVM.DateOfBirth1, addVM.Sex1),
+                                           person1 = FillPerson(addVM.Pesel2, addVM.FirstName2, addVM.MiddleName2, addVM.LastName2, addVM.DateOfBirth2, addVM.Sex2);
+                                    var personList = context.Person.ToList();
+                                    Person personToFind = personList.Where(p => p.pesel.Equals(person.pesel)).FirstOrDefault<Person>();
+                                    Person personToFind1 = personList.Where(p => p.pesel.Equals(person1.pesel)).FirstOrDefault<Person>();
+                                    if (personToFind == null)
+                                    {
+                                        context.Person.Add(person);
+                                    }
+                                    if (personToFind1 == null)
+                                    {
+                                        context.Person.Add(person1);
+                                    }
+                                    context.Marriages.Add(FillMariage(addVM.ActNumber, addVM.Pesel1, addVM.Pesel2, addVM.Date));
+                                    context.SaveChanges();
+                                    Marriage marriage = new Marriage();
+                                    marriage.Pesel1 = addVM.Pesel1; marriage.Imie1 = addVM.FirstName1; marriage.DrugieImie1 = addVM.MiddleName1;
+                                    marriage.Nazwisko1 = addVM.LastName1; marriage.Pesel2 = addVM.Pesel2; marriage.Imie2 = addVM.FirstName2;
+                                    marriage.DrugieImie2 = addVM.MiddleName2; marriage.Nazwisko2 = addVM.LastName2; marriage.Data = addVM.Date;
+                                    model.MData.Add(marriage);
+                                }
                             }
-                            else
+                            break;
+                        case "Dane Osobowe":
                             {
-                                MessageBox.Show("Podaj wszystkie dane!", "Błąd!",MessageBoxButton.OK,MessageBoxImage.Error);
-                            }                          
-                        }
-                        break;
+                                var context = new Entities();
+                                InsertDialogViewModel insertVM = new InsertDialogViewModel(WindowName);
+                                InsertDialogWindow dialog = new InsertDialogWindow(insertVM);
+                                bool? res = dialog.ShowDialog();
+                                if (res.HasValue && res.Value && insertVM.FirstName != null && insertVM.LastName != null)
+                                {
+                                    context.Person.Add(FillPerson(insertVM.Pesel, insertVM.FirstName, insertVM.MiddleName, insertVM.LastName, insertVM.DateOfBirth, insertVM.Sex));
+                                    context.SaveChanges();
+                                    PersonDetails persona = new PersonDetails();
+                                    persona.Pesel = insertVM.Pesel; persona.Imie = insertVM.FirstName; persona.DrugieImie = insertVM.MiddleName;
+                                    persona.Nazwisko = insertVM.LastName; persona.CzyMężczyzna = insertVM.Sex; persona.DataUrodzenia = insertVM.DateOfBirth;
+                                    model.PData.Add(persona);
+                                    NotifyPropertyChanged("Data");
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Podaj wszystkie dane!", "Błąd!", MessageBoxButton.OK, MessageBoxImage.Error);
+                                }
+                            }
+                            break;
+                    }
                 }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Podano błędne dane!", "Błąd!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private void ModifyAndPushToDB()
         {
-            using (SqlConnection db = new SqlConnection(connectionString))
+            try
             {
-                db.Open();
-                var context = new Entities();
-                switch (WindowName)
+                using (SqlConnection db = new SqlConnection(connectionString))
                 {
-                    case "Narodziny":
-                        if (SelectedObject != null)
-                        {
-                            Birth birth = (Birth)SelectedObject;
-                            ModifyViewModel modVM = new ModifyViewModel();
-                            modVM.Pesel = birth.Pesel; modVM.MothersPesel = birth.PeselMatki; modVM.DateOfBirth = birth.Data;
-                            modVM.FirstName = birth.Imie; modVM.MiddleName = birth.DrugieImie; modVM.LastName = birth.Nazwisko;
-                            Modify_Dialog_b dialog = new Modify_Dialog_b(modVM);
-                            var birthList = context.Births.ToList();
-                            Births birthToMod = birthList.Where(o => o.pesel.Equals(modVM.Pesel)).FirstOrDefault<Births>();
-                            bool? res = dialog.ShowDialog();
-                            if (res.HasValue && res.Value)
+                    db.Open();
+                    var context = new Entities();
+                    switch (WindowName)
+                    {
+                        case "Narodziny":
+                            if (SelectedObject != null)
                             {
-                                
-                                birthToMod.mothersPesel = modVM.MothersPesel;
-                                birthToMod.date = modVM.DateOfBirth;
-                                context.SaveChanges();
+                                Birth birth = (Birth)SelectedObject;
+                                ModifyViewModel modVM = new ModifyViewModel();
+                                modVM.Pesel = birth.Pesel; modVM.MothersPesel = birth.PeselMatki; modVM.DateOfBirth = birth.Data;
+                                modVM.FirstName = birth.Imie; modVM.MiddleName = birth.DrugieImie; modVM.LastName = birth.Nazwisko;
+                                Modify_Dialog_b dialog = new Modify_Dialog_b(modVM);
+                                var birthList = context.Births.ToList();
+                                Births birthToMod = birthList.Where(o => o.pesel.Equals(modVM.Pesel)).FirstOrDefault<Births>();
+                                bool? res = dialog.ShowDialog();
+                                if (res.HasValue && res.Value)
+                                {
+
+                                    birthToMod.mothersPesel = modVM.MothersPesel;
+                                    birthToMod.date = modVM.DateOfBirth;
+                                    context.SaveChanges();
+                                    var list = model.BData.Where(o => o.Equals(birth)).FirstOrDefault<Birth>();
+                                    list.PeselMatki = modVM.MothersPesel;
+                                    list.Data = modVM.DateOfBirth;
+                                    NotifyPropertyChanged("Data");
+                                }
                             }
-                        }
-                        else
-                        {
-                            MessageBox.Show("Zaznacz wiersz!", "Błąd!", MessageBoxButton.OK, MessageBoxImage.Error);
-                        }
-                        break;
-                    case "Zgony":
-                        if (SelectedObject != null)
-                        {
-                            Death death = (Death)SelectedObject;
-                            ModifyViewModel modVM = new ModifyViewModel();
-                            modVM.Pesel = death.Pesel; modVM.Code = death.NumerAktu; modVM.DateOfBirth = death.Data;
-                            modVM.FirstName = death.Imie; modVM.MiddleName = death.DrugieImie; modVM.LastName = death.Nazwisko;
-                            ModifyDialog_d dialog = new ModifyDialog_d(modVM);
-                            var deathList = context.Deaths.ToList();
-                            Deaths deathToMod = deathList.Where(o => o.pesel.Equals(modVM.Pesel)).FirstOrDefault<Deaths>();
-                            bool? res = dialog.ShowDialog();
-                            if (res.HasValue && res.Value)
+                            else
                             {
-                                
-                                deathToMod.ID = modVM.Code;
-                                deathToMod.date = modVM.DateOfBirth;
-                                context.SaveChanges();
+                                MessageBox.Show("Zaznacz wiersz!", "Błąd!", MessageBoxButton.OK, MessageBoxImage.Error);
                             }
-                        }
-                        else
-                        {
-                            MessageBox.Show("Zaznacz wiersz!", "Błąd!", MessageBoxButton.OK, MessageBoxImage.Error);
-                        }
-                        break;
-                    case "Zameldowanie":
-                        if (SelectedObject != null)
-                        {
-                            Accomodate acc = (Accomodate)SelectedObject;
-                            ModifyViewModel modVM = new ModifyViewModel();
-                            modVM.Pesel = acc.Pesel; modVM.FirstName = acc.Imie; modVM.LastName = acc.Nazwisko;
-                            ModifyDialog_a dialog = new ModifyDialog_a(modVM);
-                            var accList = context.Person.ToList();
-                            Person accToMod = accList.Where(o => o.pesel.Equals(modVM.Pesel)).FirstOrDefault<Person>();
-                            bool? res = dialog.ShowDialog();                           
-                            if (res.HasValue && res.Value)
+                            break;
+                        case "Zgony":
+                            if (SelectedObject != null)
                             {
-                                
-                                accToMod.permanentAddress_ID = modVM.IDPerm;
-                                accToMod.temporaryAddress_ID = modVM.IDTemp;
-                                context.SaveChanges();                                
+                                Death death = (Death)SelectedObject;
+                                ModifyViewModel modVM = new ModifyViewModel();
+                                modVM.Pesel = death.Pesel; modVM.Code = death.NumerAktu; modVM.DateOfBirth = death.Data;
+                                modVM.FirstName = death.Imie; modVM.MiddleName = death.DrugieImie; modVM.LastName = death.Nazwisko;
+                                ModifyDialog_d dialog = new ModifyDialog_d(modVM);
+                                var deathList = context.Deaths.ToList();
+                                Deaths deathToMod = deathList.Where(o => o.pesel.Equals(modVM.Pesel)).FirstOrDefault<Deaths>();
+                                bool? res = dialog.ShowDialog();
+                                if (res.HasValue && res.Value)
+                                {
+
+                                    deathToMod.ID = modVM.Code;
+                                    deathToMod.date = modVM.Date;
+                                    context.SaveChanges();
+                                    var list = model.DData.Where(o => o.Equals(death)).FirstOrDefault<Death>();
+                                    list.NumerAktu = modVM.Code;
+                                    list.Data = modVM.Date;
+                                    NotifyPropertyChanged("Data");
+                                }
                             }
-                        }
-                        else
-                        {
-                            MessageBox.Show("Zaznacz wiersz!", "Błąd!", MessageBoxButton.OK, MessageBoxImage.Error);
-                        }
-                        break;
-                    case "Dane Osobowe":
-                        if (SelectedObject != null)
-                        {
-                            PersonDetails personD = (PersonDetails)SelectedObject;
-                            ModifyViewModel modVM = new ModifyViewModel();
-                            modVM.Pesel = personD.Pesel; modVM.DateOfBirth = personD.DataUrodzenia; personD.CzyMężczyzna = modVM.Sex;
-                            modVM.FirstName = personD.Imie; modVM.MiddleName = personD.DrugieImie; modVM.LastName = personD.Nazwisko;
-                            ModifyDialogWindow_p dialog = new ModifyDialogWindow_p(modVM);
-                            var personList = context.Person.ToList();
-                            Person personToMod = personList.Where(o => o.pesel.Equals(modVM.Pesel)).FirstOrDefault<Person>();
-                            bool? res = dialog.ShowDialog();
-                            if (res.HasValue && res.Value)
-                            {                                
-                                personToMod.firstName = modVM.FirstName; personToMod.middleName = modVM.MiddleName;
-                                personToMod.lastName = modVM.LastName; personToMod.sex = modVM.Sex;
-                                context.SaveChanges();
-                            }
-                        }
-                        else
-                        {
-                            MessageBox.Show("Zaznacz wiersz!", "Błąd!", MessageBoxButton.OK, MessageBoxImage.Error);
-                        }
-                        break;
-                    case "Małżeństwa":
-                        if (SelectedObject != null)
-                        {
-                            Marriage marriage = (Marriage)SelectedObject;
-                            ModifyViewModel modVM = new ModifyViewModel();
-                            modVM.Pesel = marriage.Pesel1; modVM.Date = marriage.Data; modVM.Pesel1 = marriage.Pesel2; modVM.Anulled = marriage.Anulowano;
-                            modVM.FirstName = marriage.Imie1; modVM.MiddleName = marriage.DrugieImie1; modVM.LastName = marriage.Nazwisko1;
-                            modVM.FirstName1 = marriage.Imie2; modVM.MiddleName1 = marriage.DrugieImie2; modVM.LastName1 = marriage.Nazwisko2;
-                            modVM.Description = marriage.Powod;
-                            ModifyDialog_m dialog = new ModifyDialog_m(modVM);
-                            var marriageList = context.Marriages.ToList();
-                            Marriages marriageToMod = marriageList.Where(o => o.pesel.Equals(modVM.Pesel)).FirstOrDefault<Marriages>();
-                            bool? res = dialog.ShowDialog();
-                            if (res.HasValue && res.Value)
+                            else
                             {
-                                
-                                marriageToMod.date = modVM.Date; marriageToMod.description = modVM.Description; marriageToMod.anulled = modVM.Anulled;
-                                context.SaveChanges();
+                                MessageBox.Show("Zaznacz wiersz!", "Błąd!", MessageBoxButton.OK, MessageBoxImage.Error);
                             }
-                        }
-                        else
-                        {
-                            MessageBox.Show("Zaznacz wiersz!", "Błąd!", MessageBoxButton.OK, MessageBoxImage.Error);
-                        }
-                        break;
+                            break;
+                        case "Zameldowanie":
+                            if (SelectedObject != null)
+                            {
+                                Accomodate acc = (Accomodate)SelectedObject;
+                                ModifyViewModel modVM = new ModifyViewModel();
+                                modVM.Pesel = acc.Pesel; modVM.FirstName = acc.Imie; modVM.LastName = acc.Nazwisko;
+                                ModifyDialog_a dialog = new ModifyDialog_a(modVM);
+                                var accList = context.Person.ToList();
+                                Person accToMod = accList.Where(o => o.pesel.Equals(modVM.Pesel)).FirstOrDefault<Person>();
+                                bool? res = dialog.ShowDialog();
+                                if (res.HasValue && res.Value)
+                                {
+
+                                    accToMod.permanentAddress_ID = modVM.IDPerm;
+                                    accToMod.temporaryAddress_ID = modVM.IDTemp;
+                                    context.SaveChanges();
+                                    NotifyPropertyChanged("Data");
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("Zaznacz wiersz!", "Błąd!", MessageBoxButton.OK, MessageBoxImage.Error);
+                            }
+                            break;
+                        case "Dane Osobowe":
+                            if (SelectedObject != null)
+                            {
+                                PersonDetails personD = (PersonDetails)SelectedObject;
+                                ModifyViewModel modVM = new ModifyViewModel();
+                                modVM.Pesel = personD.Pesel; modVM.DateOfBirth = personD.DataUrodzenia; personD.CzyMężczyzna = modVM.Sex;
+                                modVM.FirstName = personD.Imie; modVM.MiddleName = personD.DrugieImie; modVM.LastName = personD.Nazwisko;
+                                ModifyDialogWindow_p dialog = new ModifyDialogWindow_p(modVM);
+                                var personList = context.Person.ToList();
+                                Person personToMod = personList.Where(o => o.pesel.Equals(modVM.Pesel)).FirstOrDefault<Person>();
+                                bool? res = dialog.ShowDialog();
+                                if (res.HasValue && res.Value)
+                                {
+                                    personToMod.firstName = modVM.FirstName; personToMod.middleName = modVM.MiddleName;
+                                    personToMod.lastName = modVM.LastName; personToMod.sex = modVM.Sex;
+                                    context.SaveChanges();
+                                    var list = model.PData.Where(o => o.Equals(personD)).FirstOrDefault<PersonDetails>();
+                                    list.Imie = modVM.FirstName; list.Nazwisko = modVM.LastName;
+                                    list.DrugieImie = modVM.MiddleName; list.CzyMężczyzna = modVM.Sex;
+                                    NotifyPropertyChanged("Data");
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("Zaznacz wiersz!", "Błąd!", MessageBoxButton.OK, MessageBoxImage.Error);
+                            }
+                            break;
+                        case "Małżeństwa":
+                            if (SelectedObject != null)
+                            {
+                                Marriage marriage = (Marriage)SelectedObject;
+                                ModifyViewModel modVM = new ModifyViewModel();
+                                modVM.Pesel = marriage.Pesel1; modVM.Date = marriage.Data; modVM.Pesel1 = marriage.Pesel2; modVM.Anulled = marriage.Anulowano;
+                                modVM.FirstName = marriage.Imie1; modVM.MiddleName = marriage.DrugieImie1; modVM.LastName = marriage.Nazwisko1;
+                                modVM.FirstName1 = marriage.Imie2; modVM.MiddleName1 = marriage.DrugieImie2; modVM.LastName1 = marriage.Nazwisko2;
+                                modVM.Description = marriage.Powod;
+                                ModifyDialog_m dialog = new ModifyDialog_m(modVM);
+                                var marriageList = context.Marriages.ToList();
+                                Marriages marriageToMod = marriageList.Where(o => o.pesel.Equals(modVM.Pesel)).FirstOrDefault<Marriages>();
+                                bool? res = dialog.ShowDialog();
+                                if (res.HasValue && res.Value)
+                                {
+
+                                    marriageToMod.date = modVM.Date; marriageToMod.description = modVM.Description;
+                                    marriageToMod.anulled = modVM.Anulled;
+                                    context.SaveChanges();
+                                    var list = model.MData.Where(o => o.Equals(marriage)).FirstOrDefault<Marriage>();
+                                    list.Data = modVM.Date; list.Anulowano = modVM.Anulled;
+                                    list.Powod = modVM.Description;
+                                    NotifyPropertyChanged("Data");
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("Zaznacz wiersz!", "Błąd!", MessageBoxButton.OK, MessageBoxImage.Error);
+                            }
+                            break;
+                    }
+                    db.Close();
                 }
-                db.Close();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Błędne dane!", "Błąd!",MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -366,7 +397,7 @@ namespace DboActivity.Dialog
                 db.Open();
                 if (SelectedObject != null)
                 {
-                    MessageBoxResult result = MessageBox.Show("Jesteś pewien?", "Usuń", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    MessageBoxResult result = MessageBox.Show("Czy na pewno chcesz usunąć?", "Usuń", MessageBoxButton.YesNo, MessageBoxImage.Question);
                     if (result.Equals(MessageBoxResult.Yes))
                     {
                         var context = new Entities();
@@ -375,7 +406,10 @@ namespace DboActivity.Dialog
                             case "Narodziny":
                                 Birth birth = (Birth)SelectedObject;
                                 var birthList = context.Births.ToList();
+                                var undoBirthList = context.Person.ToList();
                                 Births birthToFind = birthList.Where(p => p.pesel.Equals(birth.Pesel)).FirstOrDefault<Births>();
+                                Person undoBirth = undoBirthList.Where(i => i.pesel.Equals(birth.Pesel)).FirstOrDefault<Person>();
+                                context.Person.Remove(undoBirth);
                                 context.Births.Remove(birthToFind);
                                 context.SaveChanges();
                                 model.BData.Remove(birth);
@@ -384,7 +418,10 @@ namespace DboActivity.Dialog
                             case "Zgony":
                                 Death death = (Death)SelectedObject;
                                 var deathList = context.Deaths.ToList();
+                                var undo = context.Person.ToList();
                                 Deaths deathToFind = deathList.Where(p => p.pesel.Equals(death.Pesel)).FirstOrDefault<Deaths>();
+                                Person undoPerson = undo.Where(i => i.pesel.Equals(death.Pesel)).FirstOrDefault<Person>();
+                                undoPerson.isDead = false;
                                 context.Deaths.Remove(deathToFind);
                                 context.SaveChanges();
                                 model.DData.Remove(death);
@@ -393,8 +430,11 @@ namespace DboActivity.Dialog
                             case "Dane Osobowe":
                                 PersonDetails person = (PersonDetails)SelectedObject;
                                 var personList = context.Person.ToList();
+                                var tmpList = context.Marriages.ToList();
                                 Person personToFind = personList.Where(p => p.pesel.Equals(person.Pesel)).FirstOrDefault<Person>();
+                                Marriages marriagetmp = tmpList.Where(i => i.pesel.Equals(person.Pesel) || i.pesel2.Equals(person.Pesel)).FirstOrDefault<Marriages>();
                                 context.Person.Remove(personToFind);
+                                context.Marriages.Remove(marriagetmp);
                                 context.SaveChanges();
                                 model.PData.Remove(person);
                                 NotifyPropertyChanged("Data");

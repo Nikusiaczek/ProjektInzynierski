@@ -181,149 +181,207 @@ namespace DboActivity.Dialog
                        };
             AData = new ObservableCollection<Accomodate>(data);
         }
+
+        public bool ValidatePesel(decimal pesel, DateTime date, bool isMan)
+        {
+            string count = pesel.ToString();
+            if (count.Length == 11)
+                return false;
+            string year = count.Substring(0, 2);
+            string month = count.Substring(2, 2);
+            string day = count.Substring(4, 2);
+            switch (month.ElementAt(0))
+            {
+                case '8':
+                    year = "18" + year;
+                    month = month.ElementAt(1).ToString();
+                    break;
+                case '9':
+                    year = "18" + year;
+                    month = "1" + month.ElementAt(1).ToString();
+                    break;
+                case '0':
+                    year = "19" + year;
+                    month = month.ElementAt(1).ToString();
+                    break;
+                case '1':
+                    year = "19" + year;
+                    month = "1" + month.ElementAt(1).ToString();
+                    break;
+                case '2':
+                    year = "20" + year;
+                    month = month.ElementAt(1).ToString();
+                    break;
+                case '3':
+                    year = "20" + year;
+                    month = "1" + month.ElementAt(1).ToString();
+                    break;
+                case '4':
+                    year = "21" + year;
+                    month = month.ElementAt(1).ToString();
+                    break;
+                case '5':
+                    year = "21" + year;
+                    month = "1" + month.ElementAt(1).ToString();
+                    break;
+            }
+            if (!day.Equals(date.Day) || !year.Equals(date.Year) || !month.Equals(date.Month))
+                return false;
+            int sex = int.Parse(count.ElementAt(9).ToString());
+            if ((sex % 2 == 0 && isMan) || (sex % 2 != 0 && !isMan))
+                return false;
+            int controlSum = int.Parse(count.ElementAt(0).ToString()) + int.Parse(count.ElementAt(4).ToString()) + int.Parse(count.ElementAt(8).ToString());
+            controlSum += (int.Parse(count.ElementAt(1).ToString()) + int.Parse(count.ElementAt(5).ToString()) + int.Parse(count.ElementAt(9).ToString())) * 3;
+            controlSum += (int.Parse(count.ElementAt(2).ToString()) + int.Parse(count.ElementAt(6).ToString())) * 7;
+            controlSum += (int.Parse(count.ElementAt(3).ToString()) + int.Parse(count.ElementAt(7).ToString())) * 9;
+            int modulo = controlSum % 10;
+            if ((10 - modulo) == int.Parse(count.ElementAt(10).ToString()))
+                return true;
+            return false;
+        }
     }
-}
 
-public class Birth
-{
-    [Display(Name = "Pesel")]
-    public decimal Pesel { get; set; }
+        public class Birth
+        {
+            [Display(Name = "Pesel")]
+            public decimal Pesel { get; set; }
 
-    [Display(Name = "Imię")]
-    public string Imie { get; set; }
+            [Display(Name = "Imię")]
+            public string Imie { get; set; }
 
-    [Display(Name = "DrugieImię")]
-    public string DrugieImie { get; set; }
+            [Display(Name = "DrugieImię")]
+            public string DrugieImie { get; set; }
 
-    [Display(Name = "Nazwisko")]
-    public string Nazwisko { get; set; }
+            [Display(Name = "Nazwisko")]
+            public string Nazwisko { get; set; }
 
-    [Display(Name = "DataUrodzenia")]
-    public DateTime Data { get; set; }
+            [Display(Name = "DataUrodzenia")]
+            public DateTime Data { get; set; }
 
-    [Display(Name = "Pesel Matki")]
-    public decimal PeselMatki { get; set; }
-}
+            [Display(Name = "Pesel Matki")]
+            public decimal PeselMatki { get; set; }
+        }
 
-public class Marriage
-{
-    [Display(Name = "Pesel")]
-    public decimal Pesel1 { get; set; }
+        public class Marriage
+        {
+            [Display(Name = "Pesel")]
+            public decimal Pesel1 { get; set; }
 
-    [Display(Name = "Imię")]
-    public string Imie1 { get; set; }
+            [Display(Name = "Imię")]
+            public string Imie1 { get; set; }
 
-    [Display(Name = "Drugie Imię")]
-    public string DrugieImie1 { get; set; }
+            [Display(Name = "Drugie Imię")]
+            public string DrugieImie1 { get; set; }
 
-    [Display(Name = "Nazwisko")]
-    public string Nazwisko1 { get; set; }
+            [Display(Name = "Nazwisko")]
+            public string Nazwisko1 { get; set; }
 
-    [Display(Name = "Pesel Małżonka")]
-    public decimal Pesel2 { get; set; }
+            [Display(Name = "Pesel Małżonka")]
+            public decimal Pesel2 { get; set; }
 
-    [Display(Name = "Imię Małżonka")]
-    public string Imie2 { get; set; }
+            [Display(Name = "Imię Małżonka")]
+            public string Imie2 { get; set; }
 
-    [Display(Name = "Drugie Imię Małż.")]
-    public string DrugieImie2 { get; set; }
+            [Display(Name = "Drugie Imię Małż.")]
+            public string DrugieImie2 { get; set; }
 
-    [Display(Name = "Nazwisko Małżonka")]
-    public string Nazwisko2 { get; set; }
+            [Display(Name = "Nazwisko Małżonka")]
+            public string Nazwisko2 { get; set; }
 
-    [Display(Name = "Data zawarcia")]
-    public DateTime Data { get; set; }
+            [Display(Name = "Data zawarcia")]
+            public DateTime Data { get; set; }
 
-    [Display(Name = "Anulowano")]
-    public DateTime? Anulowano { get; set; }
+            [Display(Name = "Anulowano")]
+            public DateTime? Anulowano { get; set; }
 
-    [Display(Name = "Powód")]
-    public string Powod { get; set; }
-}
+            [Display(Name = "Powód")]
+            public string Powod { get; set; }
+        }
 
-public class Death
-{
-    public decimal Pesel { get; set; }
+        public class Death
+        {
+            public decimal Pesel { get; set; }
 
-    [Display(Name = "Imię")]
-    public string Imie { get; set; }
+            [Display(Name = "Imię")]
+            public string Imie { get; set; }
 
-    [Display(Name = "Drugie Imię")]
-    public string DrugieImie { get; set; }
+            [Display(Name = "Drugie Imię")]
+            public string DrugieImie { get; set; }
 
-    [Display(Name = "Nazwisko")]
-    public string Nazwisko { get; set; }
+            [Display(Name = "Nazwisko")]
+            public string Nazwisko { get; set; }
 
-    [Display(Name = "Data Zgonu")]
-    public DateTime Data { get; set; }
+            [Display(Name = "Data Zgonu")]
+            public DateTime Data { get; set; }
 
-    [Display(Name = "Numer Aktu")]
-    public int NumerAktu { get; set; }
-}
+            [Display(Name = "Numer Aktu")]
+            public int NumerAktu { get; set; }
+        }
 
-public class PersonDetails
-{
-    public decimal Pesel { get; set; }
+        public class PersonDetails
+        {
+            public decimal Pesel { get; set; }
 
-    [Display(Name = "Imię")]
-    public string Imie { get; set; }
+            [Display(Name = "Imię")]
+            public string Imie { get; set; }
 
-    [Display(Name = "Drugie Imię")]
-    public string DrugieImie { get; set; }
+            [Display(Name = "Drugie Imię")]
+            public string DrugieImie { get; set; }
 
-    [Display(Name = "Nazwisko")]
-    public string Nazwisko { get; set; }
+            [Display(Name = "Nazwisko")]
+            public string Nazwisko { get; set; }
 
-    [Display(Name = "Data Urodzenia")]
-    public DateTime DataUrodzenia { get; set; }
+            [Display(Name = "Data Urodzenia")]
+            public DateTime DataUrodzenia { get; set; }
 
-    [Display(Name = "CzyMężczyzna")]
-    public bool CzyMężczyzna { get; set; }
-}
+            [Display(Name = "CzyMężczyzna")]
+            public bool CzyMężczyzna { get; set; }
+        }
 
-public class Accomodate
-{
-    public decimal Pesel { get; set; }
+        public class Accomodate
+        {
+            public decimal Pesel { get; set; }
 
-    [Display(Name = "Imię")]
-    public string Imie { get; set; }
+            [Display(Name = "Imię")]
+            public string Imie { get; set; }
 
-    [Display(Name = "Nazwisko")]
-    public string Nazwisko { get; set; }
+            [Display(Name = "Nazwisko")]
+            public string Nazwisko { get; set; }
 
-    [Display(Name = "Kraj")]
-    public string Kraj { get; set; }
+            [Display(Name = "Kraj")]
+            public string Kraj { get; set; }
 
-    [Display(Name = "Miasto")]
-    public string Miasto { get; set; }
+            [Display(Name = "Miasto")]
+            public string Miasto { get; set; }
 
-    [Display(Name = "Kod Pocztowy")]
-    public string KodPocztowy { get; set; }
+            [Display(Name = "Kod Pocztowy")]
+            public string KodPocztowy { get; set; }
 
-    [Display(Name = "Ulica")]
-    public string Ulica { get; set; }
+            [Display(Name = "Ulica")]
+            public string Ulica { get; set; }
 
-    [Display(Name = "Numer Budynku")]
-    public string NrBudynku { get; set; }
+            [Display(Name = "Numer Budynku")]
+            public string NrBudynku { get; set; }
 
-    [Display(Name = "Numer Mieszkania")]
-    public int NrMieszkania { get; set; }
+            [Display(Name = "Numer Mieszkania")]
+            public int NrMieszkania { get; set; }
 
-    [Display(Name = "Tymcz. Kraj")]
-    public string TymczKraj { get; set; }
+            [Display(Name = "Tymcz. Kraj")]
+            public string TymczKraj { get; set; }
 
-    [Display(Name = "Tymcz. Miasto")]
-    public string TymczMiasto { get; set; }
+            [Display(Name = "Tymcz. Miasto")]
+            public string TymczMiasto { get; set; }
 
-    [Display(Name = "Tymcz. Kod Poczt.")]
-    public string TymczKodPoczt { get; set; }
+            [Display(Name = "Tymcz. Kod Poczt.")]
+            public string TymczKodPoczt { get; set; }
 
-    [Display(Name = "Tymcz. Ulica")]
-    public string TymczUlica { get; set; }
+            [Display(Name = "Tymcz. Ulica")]
+            public string TymczUlica { get; set; }
 
-    [Display(Name = "Tymcz. Nr Budynku")]
-    public string TymczNrBudynku { get; set; }
+            [Display(Name = "Tymcz. Nr Budynku")]
+            public string TymczNrBudynku { get; set; }
 
-    [Display(Name = "Tymcz. Nr Mieszkania")]
-    public int TymczNrMieszkania { get; set; }
+            [Display(Name = "Tymcz. Nr Mieszkania")]
+            public int TymczNrMieszkania { get; set; }
+        }
 }

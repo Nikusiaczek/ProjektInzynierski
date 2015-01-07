@@ -4,6 +4,12 @@
         xmlns:help="clr-namespace:HelpProvider;assembly=HelpProvidance"
         help:Help.Filename="MyHelp.chm"
         Title="{Binding WindowName}" MinWidth="450" MinHeight="650">
+    <Window.InputBindings>
+        <KeyBinding Key="Insert" Command="{Binding InsertDialogCommand}" />
+        <KeyBinding Key="Delete" Command="{Binding DeleteDialogCommand}" />
+        <KeyBinding Modifiers="Control" Key="M" Command="{Binding ModifyDialogCommand}" />
+        <KeyBinding Modifiers="Control" Key="S" Command="{Binding BrowserCommand}" />
+    </Window.InputBindings>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto" MinWidth="268"/>

@@ -4,9 +4,14 @@
         xmlns:help="clr-namespace:HelpProvider;assembly=HelpProvidance"
         help:Help.Filename="MyHelp.chm"
         Title="Ewidencja ludności" Height="430" Width="715" Background="#FF97A69A">
-    <!--<Window.CommandBindings>
-        <CommandBinding Command="ApplicationCommands.Help" Executed="Window_Help_Executed"/>
-    </Window.CommandBindings>-->
+    <Window.InputBindings>       
+        <KeyBinding Modifiers="Control" Key="M" Command="{Binding PopupCommand}" CommandParameter="{Binding ElementName=marriageButton}"/>
+        <KeyBinding Modifiers="Control" Key="N" Command="{Binding PopupCommand}" CommandParameter="{Binding ElementName=birthButton}"/>
+        <KeyBinding Modifiers="Control" Key="D" Command="{Binding PopupCommand}" CommandParameter="{Binding ElementName=personalDataButton}"/>
+        <KeyBinding Modifiers="Control" Key="A" Command="{Binding PopupCommand}" CommandParameter="{Binding ElementName=accomodationButton}"/>
+        <KeyBinding Modifiers="Control" Key="Z" Command="{Binding PopupCommand}" CommandParameter="{Binding ElementName=deathButton}"/>
+        <KeyBinding Modifiers="Control" Key="P" Command="{Binding BrowserCommand}"/>
+    </Window.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
